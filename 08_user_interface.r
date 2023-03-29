@@ -1,4 +1,4 @@
-#08_user_interface.r
+#06_user_interface.r
 
 myvar.user_interface_state <- "on"
 
@@ -538,9 +538,7 @@ while (myvar.user_interface_state != "off") {
                                                                  location,
                                                                  year,
                                                                  substance,
-                                                                 concentration,
-                                                                 lod,
-                                                                 loq) %>%
+                                                                 concentration) %>%
                                pivot_wider(names_from = substance, values_from = concentration)
                                
                              
@@ -555,82 +553,93 @@ while (myvar.user_interface_state != "off") {
                              
                            },
                            "P" = {
+                             tbl_tmp_results_p <- dplyr::select(tbl_results_p, 
+                                                                 fk_id_sam_p,
+                                                                 colony,
+                                                                 matrix,
+                                                                 sample_date,
+                                                                 location,
+                                                                 year,
+                                                                 substance,
+                                                                 concentration) %>%
+                               pivot_wider(names_from = substance, values_from = concentration)
+                             
+                             
                              readr::write_excel_csv(
-                               dplyr::select(tbl_results_p, 
-                                             fk_id_sam_p,
-                                             colony,
-                                             matrix,
-                                             sample_date_start,
-                                             sample_date_end,
-                                             location,
-                                             year,
-                                             substance,
-                                             concentration,
-                                             lod,
-                                             loq),
+                               tbl_tmp_results_p,
                                base::paste0("tbl_results_", myvar.usr_matrix, ".csv"),
                                delim = ";"
                              )
+                             rm(tbl_tmp_results_p)
                              base::print("DONE")
                              base::print(base::paste0("The file ist stored in the working directory."))
                              
                            },
                            "W" = {
+                             tbl_tmp_results_w <- dplyr::select(tbl_results_w, 
+                                                                 fk_id_sam_w,
+                                                                 colony,
+                                                                 matrix,
+                                                                 sample_date,
+                                                                 location,
+                                                                 year,
+                                                                 substance,
+                                                                 concentration) %>%
+                               pivot_wider(names_from = substance, values_from = concentration)
+                             
+                             
                              readr::write_excel_csv(
-                               dplyr::select(tbl_results_w, 
-                                             fk_id_sam_w,
-                                             colony,
-                                             matrix,
-                                             sample_date,
-                                             location,
-                                             year,
-                                             substance,
-                                             concentration,
-                                             lod,
-                                             loq),
+                               tbl_tmp_results_w,
                                base::paste0("tbl_results_", myvar.usr_matrix, ".csv"),
                                delim = ";"
                              )
+                             rm(tbl_tmp_results_w)
                              base::print("DONE")
                              base::print(base::paste0("The file ist stored in the working directory."))
                              
                            },
                            "A_L2" = {
+                             tbl_tmp_results_a <- dplyr::select(tbl_results_a, 
+                                                                 fk_id_sam_a,
+                                                                 colony,
+                                                                 matrix,
+                                                                 sample_date,
+                                                                 location,
+                                                                 year,
+                                                                 substance,
+                                                                 concentration) %>%
+                               pivot_wider(names_from = substance, values_from = concentration)
+                             
+                             
                              readr::write_excel_csv(
-                               dplyr::select(tbl_results_a, 
-                                             fk_id_sam_a,
-                                             colony,
-                                             matrix,
-                                             sample_date,
-                                             location,
-                                             year,
-                                             substance,
-                                             concentration,
-                                             lod,
-                                             loq),
+                               tbl_tmp_results_a,
                                base::paste0("tbl_results_", myvar.usr_matrix, ".csv"),
                                delim = ";"
                              )
+                             rm(tbl_tmp_results_a)
                              base::print("DONE")
                              base::print(base::paste0("The file ist stored in the working directory."))
                              
                            },
                            "A_L1" = {
+                             tbl_tmp_results_a_sp <- dplyr::select(tbl_results_a_sp, 
+                                                                 fk_id_sam_a_sp,
+                                                                 colony,
+                                                                 matrix,
+                                                                 sample_date,
+                                                                 location,
+                                                                 year,
+                                                                 substance,
+                                                                 concentration) %>%
+                               pivot_wider(names_from = substance, values_from = concentration)
+                             
+                             
                              readr::write_excel_csv(
-                               dplyr::select(tbl_results_a_sp, 
-                                             fk_id_sam_a_sp,
-                                             colony,
-                                             matrix,
-                                             sample_date,
-                                             location,
-                                             year,
-                                             substance,
-                                             concentration,
-                                             lod,
-                                             loq),
+                               tbl_tmp_results_a_sp,
                                base::paste0("tbl_results_", myvar.usr_matrix, ".csv"),
                                delim = ";"
                              )
+                             rm(tbl_tmp_results_a_sp)
                              base::print("DONE")
                              base::print(base::paste0("The file ist stored in the working directory."))
                              
@@ -646,7 +655,7 @@ while (myvar.user_interface_state != "off") {
                     
                     myfun.export_tbl_matrix_diff(myvar.usr_results_year)
                     base::print("DONE")
-                    base::print(base::paste0("The file ist stored inthe working directory"))
+                    base::print(base::paste0("The file ist stored in the working directory"))
                     
                   },
                   "tbl3" = {
