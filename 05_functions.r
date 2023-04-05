@@ -888,8 +888,8 @@ myfun.plot_substance_gt_loq_a_sp <- function(fun_year, fun_location){
 
 # plot mean chart for bb -------------------------------------------------------------
 
-myfun.plot_avg_bb <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_bb, year == fun_year)
+myfun.plot_avg_bb <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_bb, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -898,7 +898,7 @@ myfun.plot_avg_bb <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_bb, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_bb, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_avg, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
@@ -939,8 +939,8 @@ myfun.plot_avg_bb <- function(fun_year){
 
 # plot mean chart for p --------------------------------------------------------------
 
-myfun.plot_avg_p <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_p, year == fun_year)
+myfun.plot_avg_p <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_p, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -949,7 +949,7 @@ myfun.plot_avg_p <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_p, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_p, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_avg, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
@@ -990,8 +990,8 @@ myfun.plot_avg_p <- function(fun_year){
 
 # create mean chart for w -----------------------------------------------------
 
-myfun.plot_avg_w <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_w, year == fun_year)
+myfun.plot_avg_w <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_w, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -1000,7 +1000,7 @@ myfun.plot_avg_w <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_w, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_w, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_avg, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
@@ -1041,8 +1041,8 @@ myfun.plot_avg_w <- function(fun_year){
 
 # create mean chart for a ---------------------------------------------------
 
-myfun.plot_avg_a <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_a, year == fun_year)
+myfun.plot_avg_a <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_a, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -1051,7 +1051,7 @@ myfun.plot_avg_a <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_a, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_a, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_avg, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
@@ -1093,8 +1093,8 @@ myfun.plot_avg_a <- function(fun_year){
 
 # create mean chart for a_sp ---------------------------------------------------
 
-myfun.plot_avg_a_sp <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_a_sp, year == fun_year)
+myfun.plot_avg_a_sp <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_a_sp, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -1103,7 +1103,7 @@ myfun.plot_avg_a_sp <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_a_sp, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_a_sp, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_avg, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
@@ -1144,8 +1144,8 @@ myfun.plot_avg_a_sp <- function(fun_year){
 
 # create cumulative chart for bb --------------------------------------------------
 
-myfun.plot_cum_bb <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_bb, year == fun_year)
+myfun.plot_cum_bb <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_bb, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -1154,7 +1154,7 @@ myfun.plot_cum_bb <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_bb, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_bb, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_cum, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
@@ -1195,8 +1195,8 @@ myfun.plot_cum_bb <- function(fun_year){
 
 # create cumulative chart for p ---------------------------------------------------
 
-myfun.plot_cum_p <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_p, year == fun_year)
+myfun.plot_cum_p <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_p, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -1205,7 +1205,7 @@ myfun.plot_cum_p <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_p, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_p, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_cum, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
@@ -1246,8 +1246,8 @@ myfun.plot_cum_p <- function(fun_year){
 
 # create cumulative chart for w ---------------------------------------------------
 
-myfun.plot_cum_w <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_w, year == fun_year)
+myfun.plot_cum_w <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_w, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -1256,7 +1256,7 @@ myfun.plot_cum_w <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_w, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_w, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_cum, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
@@ -1297,8 +1297,8 @@ myfun.plot_cum_w <- function(fun_year){
 
 # create cumulative chart for a --------------------------------------------
 
-myfun.plot_cum_a <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_a, year == fun_year)
+myfun.plot_cum_a <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_a, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -1307,7 +1307,7 @@ myfun.plot_cum_a <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_a, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_a, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_cum, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
@@ -1350,8 +1350,8 @@ myfun.plot_cum_a <- function(fun_year){
 
 # create cumulative chart for a_sp --------------------------------------------
 
-myfun.plot_cum_a_sp <- function(fun_year){
-  tbl_tmp <- dplyr::filter(tbl_avg_cum_a_sp, year == fun_year)
+myfun.plot_cum_a_sp <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_a_sp, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp$location_short)
   myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp$location))
   myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
@@ -1360,7 +1360,7 @@ myfun.plot_cum_a_sp <- function(fun_year){
   myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
   
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_a_sp, year == fun_year, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_a_sp, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
     tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = sample_date,y = concentration_cum, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
