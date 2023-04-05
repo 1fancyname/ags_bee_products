@@ -1,9 +1,11 @@
-#06_user_interface.r
+#08_user_interface.r
 
 myvar.user_interface_state <- "on"
 
 while (myvar.user_interface_state != "off") {
-  base::print("Wellcome to the R script for plotting Data of the AP22 - 25 Project. To exit the user interface press esc.")
+  base::print("Wellcome to the R script of the bee products group.")
+  base::print("Version 1.0.0")
+  base::print("To exit the user interface type 'exit' in the menu or press esc.")
   base::print("")
   base::print("")
   base::print("Would you like to create charts with the imported data or export files generated from the imported data?")
@@ -61,7 +63,7 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                              base::print("%")
                            },
-                           "A_L2" = {
+                           "AS_L2" = {
                              base::print("For which year do you want to create the charts? Example: 2022")
                              myvar.usr_prevalence_year  <- base::as.numeric(base::readline("Enter here:"))
                              
@@ -73,7 +75,7 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                              base::print("%")
                            },
-                           "A_L1" = {
+                           "AS_L1" = {
                              base::print("For which year do you want to create the charts? Example: 2022")
                              myvar.usr_prevalence_year  <- base::as.numeric(base::readline("Enter here:"))
                              
@@ -206,24 +208,24 @@ while (myvar.user_interface_state != "off") {
                                     }
                              )
                            },
-                           "A_L2" = {
+                           "AS_L2" = {
                              base::print("For which year do you want to create the charts? Example: 2022")
                              myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                              
                              base::print("For which location do you want to create the charts? Example: BC2")
                              myvar.usr_results_location  <- stringr::str_to_upper(base::as.character(base::readline("Enter here:"))) 
                              
-                             myfun.plot_substance_gt_lod_a(fun_year = myvar.usr_results_year,
+                             myfun.plot_substance_gt_loq_a(fun_year = myvar.usr_results_year,
                                                            fun_location = myvar.usr_results_location)
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
+                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
                              base::print("%")
                              
                            },
-                           "A_L1" = {
+                           "AS_L1" = {
                              base::print("For which year do you want to create the charts? Example: 2022")
                              myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                              
@@ -235,7 +237,7 @@ while (myvar.user_interface_state != "off") {
                                                            fun_location = myvar.usr_results_location)
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_Spain/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
+                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L1/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -293,27 +295,27 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                              base::print("%")
                            },
-                           "A_L2" = {
+                           "AS_L2" = {
                              base::print("For which year do you want to create a plot? Example: 2022")
                              myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                              
                              myfun.plot_avg_a(myvar.usr_results_year)
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip/Average/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Average/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
                              base::print("%")
                            },
-                           "A_L1" = {
+                           "AS_L1" = {
                              base::print("For which year do you want to create a plot? Example: 2022")
                              myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                              
                              myfun.plot_avg_a_sp(myvar.usr_results_year)
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_Spain/Average/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L1/Average/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -368,27 +370,27 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                              base::print("%")
                            },
-                           "A_L2" = {
+                           "AS_L2" = {
                              base::print("For which year do you want to create a plot? Example: 2022")
                              myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                              
                              myfun.plot_cum_a(myvar.usr_results_year)
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip/Cumulative/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Cumulative/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
                              base::print("%")
                            },
-                           "A_L1" = {
+                           "AS_L1" = {
                              base::print("For which year do you want to create a plot? Example: 2022")
                              myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                              
                              myfun.plot_cum_a_sp(myvar.usr_results_year)
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_Spain/Cumulative/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L1/Cumulative/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -440,17 +442,16 @@ while (myvar.user_interface_state != "off") {
                     
                     
                     myfun.plot_matrix_avg_comparison_a(fun_year = myvar.usr_results_year,
-                                                     fun_location = myvar.usr_results_location)
+                                                       fun_location = myvar.usr_results_location)
                     
                     base::print("DONE")
-                    base::print(paste0("The files are located at: ./Grafik/Matrix_Comparison/Mean/",myvar.usr_results_year,"/", myvar.usr_results_location, "/"))
+                    base::print(paste0("The files are located at: ./Grafik/Matrix_Comparison/Apistrips/Mean/",myvar.usr_results_year,"/", myvar.usr_results_location, "/"))
                     base::print("%")
                     base::print("%")
                     base::print("%")
                     base::print("%")
                   },
                   "ch7" = {
-                    
                     base::print("For what period of time do you want to create the charts?")
                     myvar.usr_results_year1  <- base::as.numeric(base::readline("Enter first year here:"))
                     myvar.usr_results_year2  <- base::as.numeric(base::readline("Enter last year here:"))
@@ -465,7 +466,6 @@ while (myvar.user_interface_state != "off") {
                     base::print("%")
                     base::print("%")
                     base::print("%")
-                    
                   },
                   "ch8" = {
                     
@@ -488,12 +488,12 @@ while (myvar.user_interface_state != "off") {
                     
                     
                     myfun.create_sub_comparison_chart_wm(fun_sub1 = myvar.usr_substance[1],
-                                                     fun_sub2 = myvar.usr_substance[2],
-                                                     fun_sub3 = myvar.usr_substance[3],
-                                                     fun_sub4 = myvar.usr_substance[4],
-                                                     fun_sub5 = myvar.usr_substance[5],
-                                                     fun_year_start = myvar.usr_results_year1,
-                                                     fun_year_end = myvar.usr_results_year2)
+                                                         fun_sub2 = myvar.usr_substance[2],
+                                                         fun_sub3 = myvar.usr_substance[3],
+                                                         fun_sub4 = myvar.usr_substance[4],
+                                                         fun_sub5 = myvar.usr_substance[5],
+                                                         fun_year_start = myvar.usr_results_year1,
+                                                         fun_year_end = myvar.usr_results_year2)
                     
                     base::print("DONE")
                     base::print(paste0("The files are located at: ./Grafik/Wachsmonitoring/Substance_Comparison/"))
@@ -504,7 +504,7 @@ while (myvar.user_interface_state != "off") {
                     
                   },
                   "ch9" = {
-                    
+                   
                   },
                   "ch10" = {
                     
@@ -669,23 +669,19 @@ while (myvar.user_interface_state != "off") {
                   }
            )
            
+         }, 
+         "exit" = {
+           base::print("% Stopping user interface...")
+           base::print("%")
+           base::print("%")
+           base::print("%")
+           break
          }
   )
 }
 
 
 
-switch(variable,
-       "case1" = {
-         
-       },
-       "case2" = {
-         
-       },
-       "case3" = {
-         
-       }
-)
 
 
 
