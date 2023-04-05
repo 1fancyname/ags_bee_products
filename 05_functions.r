@@ -819,7 +819,7 @@ myfun.plot_substance_gt_loq_a <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Apistrip/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
+           path = base::paste0("./Grafik/Apistrip_L2/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
     
   }
 }
@@ -878,7 +878,7 @@ myfun.plot_substance_gt_loq_a_sp <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Apistrip_Spain/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
+           path = base::paste0("./Grafik/Apistrip_L1/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
     
   }
 }
@@ -1695,6 +1695,57 @@ myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end
 
 
 
+
+myfun.plot_matrix_avg_comparison_a <- function(fun_year, fun_location, fun_matrix1, fun_matrix2){
+  tbl_tmp <- dplyr::filter(tbl_avg_cum_agr, year == fun_year, location_short == fun_location, matrix_short == fun_matrix1 | matrix_short == fun_matrix2)
+  tbl_tmp_1 <- dplyr::filter(tbl_avg_cum_agr, year == fun_year, location_short == fun_location, matrix_short == fun_matrix1)
+  tbl_tmp_2 <- dplyr::filter(tbl_avg_cum_agr, year == fun_year, location_short == fun_location, matrix_short == fun_matrix2)
+  myvar.unique_sub_1 <- base::unique(tbl_tmp_1$substance)
+  myva.unique_sub_2 <- base::unique(tbl_tmp_2$substance)
+  myvar.tmp_substances <- base::intersect(myvar.unique_sub_1, myva.unique_sub_2)
+  myvar.tmp_tbl_unique_matrix <- base::unique(tbl_tmp$matrix)
+  myvar.tmp_labels_matrix <- base::sort(base::unique(tbl_tmp$matrix_short))
+  myvar.tmp_matrix_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_matrix))
+  myvar.tmp_date_breaks <- base::unique(tbl_tmp$sample_date)
+  myvar.tmp_dates_labels <- base::strftime(base::unique(tbl_tmp$sample_date), format = "%d.%m.")
+  
+  for (i in base::seq_along(myvar.tmp_substances)) {
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_avg_cum_agr, year == fun_year, location_short == fun_location, matrix_short == fun_matrix1 | matrix_short == fun_matrix2, substance == myvar.tmp_substances[i])
+    tbl_tmp_cur_sub %>%
+      ggplot(mapping = aes(x = sample_date,y = concentration_avg, fill = matrix)) +
+      geom_col(position = position_dodge2(preserve = "single")) +
+      scale_fill_manual(values = myvar.tmp_matrix_colours_viridis,
+                        labels = myvar.tmp_labels_matrix) +
+      ggtitle(paste0(myvar.tmp_substances[i])) +
+      theme(
+        axis.text.x = element_text(
+          angle = 30,
+          hjust = 1,
+          colour = "black",
+          size = 14
+        ),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title.y = element_text(size = 16),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(size = 20),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13)
+      ) +
+      labs(fill = "Matrix") +
+      xlab("") +
+      ylab("Conc. [ng/Strip]") +
+      scale_y_continuous(expand = expansion(mult = c(0, .1))) +
+      scale_x_date(breaks = myvar.tmp_date_breaks,
+                   labels = myvar.tmp_dates_labels)
+    ggsave(paste0(fun_location, "_apistrip_mean_",myvar.tmp_substances[i],"_.jpg"),
+           height = 1080,
+           width = 2800,
+           units = "px",
+           path = paste0("./Grafik/Matrix_Comparison/Mean/", fun_year,"/", fun_location, "/"))
+  }
+  rm(i)
+}
 
 
 
