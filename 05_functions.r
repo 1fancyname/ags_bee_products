@@ -825,6 +825,63 @@ myfun.plot_substance_gt_loq_a <- function(fun_year, fun_location){
 }
 
 
+#for values grater than lod
+
+myfun.plot_substance_gt_lod_a <- function(fun_year, fun_location){
+  tmp_tbl <- dplyr::filter(tbl_results_a, year == fun_year, location_short == fun_location)
+  myvar.tmp1_sub_unique <- base::unique(tmp_tbl$substance)
+  myvar.tmp_tbl_unique_colonies <- base::unique(tmp_tbl$colony)
+  myvar.tmp_labels <- myfun.create_label_vector(myvar.tmp_tbl_unique_colonies)
+  myvar.tmp_colony_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_colonies))
+  for (i in base::seq_along(myvar.tmp1_sub_unique)) {
+    tmp_tbl_sub <- dplyr::filter(tbl_results_a, year == fun_year, location_short == fun_location, substance == myvar.tmp1_sub_unique[i])
+    for (j in 1:NROW(tmp_tbl_sub)) {
+      if (tmp_tbl_sub$greater_than_lod[j] == FALSE) {
+        tmp_tbl_sub$concentration[j] = 0
+      }
+    }
+    myvar.tmp_date_breaks <- base::unique(tmp_tbl_sub$sample_date)
+    myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl_sub$sample_date), format = "%d.%m.")
+    myvar.tmp_max_conc <- base::max(tmp_tbl_sub$concentration)
+    tmp_tbl_sub %>%
+      ggplot(mapping = aes(x = sample_date,y = concentration, fill = colony)) +
+      geom_col(position = position_dodge2(preserve = "single")) +
+      scale_fill_manual(values = myvar.tmp_colony_colours_viridis,
+                        labels = myvar.tmp_labels) +
+      ggtitle(paste0(myvar.tmp1_sub_unique[i])) +
+      theme(
+        axis.text.x = element_text(
+          angle = 30,
+          hjust = 1,
+          colour = "black",
+          size = 14
+        ),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title.y = element_text(size = 16),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(size = 20),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13)
+      ) +
+      xlab("") +
+      ylab("Conc. [ng/Strip]") +
+      labs(fill = "Colony") +
+      scale_y_continuous(expand = expansion(mult = c(0, .1)),
+                         limits = c(0, myvar.tmp_max_conc)) +
+      scale_x_date(breaks = myvar.tmp_date_breaks,
+                   labels = myvar.tmp_dates_labels)
+    ggsave(paste0(fun_location, "_a_plot_",myvar.tmp1_sub_unique[i] ,"_gt_lod.jpg"),
+           height = 1080,
+           width = 2300,
+           units = "px",
+           path = base::paste0("./Grafik/Apistrip_L2/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
+    
+  }
+}
+
+
+
 
 # create standard substance chart for apistrip_spain ----------------------------
 
