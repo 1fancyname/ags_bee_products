@@ -251,16 +251,32 @@ while (myvar.user_interface_state != "off") {
                     
                     # ch3 ---------------------------------------------------------------------
                     
-                    base::print("For which matrix do you want to create the charts? Example: bb")
+                    base::print("For which matrix do you want to create the charts? Example: BB")
                     myvar.usr_matrix <- stringr::str_to_upper(base::as.character(base::readline("Enter here:")))
+                    
+                    base::print("For which year do you want to create a plot? Example: 2022")
+                    myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
+                    
+                    base::print("Choose which locations you want to compare. Example: BC2")
+                    base::print("Leave prompt empty and hit enter if the desired locations have been chosen.")
+                    
+                    myvar.usr_location[1]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))) 
+                    myvar.usr_location[2]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))) 
+                    myvar.usr_location[3]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter third location here:"))))
+                    myvar.usr_location[4]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter fourth location here:")))) 
+                    myvar.usr_location[5]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter fifth location here:")))) 
+                    myvar.usr_location <- unique(myvar.usr_location)
+
                     
                     switch(myvar.usr_matrix,
                            "BB" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                              
-                             
-                             myfun.plot_avg_bb(fun_year = myvar.usr_results_year)
+                             myfun.plot_avg_bb(fun_year = myvar.usr_results_year,
+                                               fun_location1 = myvar.usr_location[1],
+                                               fun_location2 = myvar.usr_location[2],
+                                               fun_location3 = myvar.usr_location[3],
+                                               fun_location4 = myvar.usr_location[4],
+                                               fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Beebread/Average/",myvar.usr_results_year,"/"))
@@ -270,10 +286,13 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                            },
                            "P" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
-                             
-                             myfun.plot_avg_p(myvar.usr_results_year)
+
+                             myfun.plot_avg_p(myvar.usr_results_year,
+                                              fun_location1 = myvar.usr_location[1],
+                                              fun_location2 = myvar.usr_location[2],
+                                              fun_location3 = myvar.usr_location[3],
+                                              fun_location4 = myvar.usr_location[4],
+                                              fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Pollen/Average/",myvar.usr_results_year,"/"))
@@ -283,10 +302,13 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                            },
                            "W" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
-                             
-                             myfun.plot_avg_w(myvar.usr_results_year)
+
+                             myfun.plot_avg_w(myvar.usr_results_year,
+                                              fun_location1 = myvar.usr_location[1],
+                                              fun_location2 = myvar.usr_location[2],
+                                              fun_location3 = myvar.usr_location[3],
+                                              fun_location4 = myvar.usr_location[4],
+                                              fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Wax/Average/",myvar.usr_results_year,"/"))
@@ -296,10 +318,13 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                            },
                            "AS_L2" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
-                             
-                             myfun.plot_avg_a(myvar.usr_results_year)
+
+                             myfun.plot_avg_a(myvar.usr_results_year,
+                                              fun_location1 = myvar.usr_location[1],
+                                              fun_location2 = myvar.usr_location[2],
+                                              fun_location3 = myvar.usr_location[3],
+                                              fun_location4 = myvar.usr_location[4],
+                                              fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Average/",myvar.usr_results_year,"/"))
@@ -309,10 +334,13 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                            },
                            "AS_L1" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
-                             
-                             myfun.plot_avg_a_sp(myvar.usr_results_year)
+
+                             myfun.plot_avg_a_sp(myvar.usr_results_year,
+                                                 fun_location1 = myvar.usr_location[1],
+                                                 fun_location2 = myvar.usr_location[2],
+                                                 fun_location3 = myvar.usr_location[3],
+                                                 fun_location4 = myvar.usr_location[4],
+                                                 fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Apistrip_L1/Average/",myvar.usr_results_year,"/"))
@@ -330,12 +358,29 @@ while (myvar.user_interface_state != "off") {
                     base::print("For which matrix do you want to create a graph? Example: BB")
                     myvar.usr_matrix <- stringr::str_to_upper(base::as.character(base::readline("Enter here:")))
                     
+                    
+                    base::print("For which year do you want to create a plot? Example: 2022")
+                    myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
+                    
+                    
+                    base::print("Choose which locations you want to compare. Example: BC2")
+                    base::print("Leave prompt empty and hit enter if the desired locations have been chosen.")
+                    myvar.usr_location[1]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))) 
+                    myvar.usr_location[2]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))) 
+                    myvar.usr_location[3]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter third location here:"))))
+                    myvar.usr_location[4]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter fourth location here:")))) 
+                    myvar.usr_location[5]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter fifth location here:")))) 
+                    myvar.usr_location <- unique(myvar.usr_location)
+                    
                     switch(myvar.usr_matrix,
                            "BB" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                              
-                             myfun.plot_cum_bb(myvar.usr_results_year)
+                             myfun.plot_cum_bb(myvar.usr_results_year,
+                                               fun_location1 = myvar.usr_location[1],
+                                               fun_location2 = myvar.usr_location[2],
+                                               fun_location3 = myvar.usr_location[3],
+                                               fun_location4 = myvar.usr_location[4],
+                                               fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Beebread/Cumulative/",myvar.usr_results_year,"/"))
@@ -345,10 +390,13 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                            },
                            "P" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
-                             
-                             myfun.plot_cum_p(myvar.usr_results_year)
+
+                             myfun.plot_cum_p(myvar.usr_results_year,
+                                              fun_location1 = myvar.usr_location[1],
+                                              fun_location2 = myvar.usr_location[2],
+                                              fun_location3 = myvar.usr_location[3],
+                                              fun_location4 = myvar.usr_location[4],
+                                              fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Pollen/Cumulative/",myvar.usr_results_year,"/"))
@@ -358,10 +406,13 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                            },
                            "W" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
-                             
-                             myfun.plot_cum_w(myvar.usr_results_year)
+
+                             myfun.plot_cum_w(myvar.usr_results_year,
+                                              fun_location1 = myvar.usr_location[1],
+                                              fun_location2 = myvar.usr_location[2],
+                                              fun_location3 = myvar.usr_location[3],
+                                              fun_location4 = myvar.usr_location[4],
+                                              fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Wax/Cumulative/",myvar.usr_results_year,"/"))
@@ -371,10 +422,13 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                            },
                            "AS_L2" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
-                             
-                             myfun.plot_cum_a(myvar.usr_results_year)
+
+                             myfun.plot_cum_a(myvar.usr_results_year,
+                                              fun_location1 = myvar.usr_location[1],
+                                              fun_location2 = myvar.usr_location[2],
+                                              fun_location3 = myvar.usr_location[3],
+                                              fun_location4 = myvar.usr_location[4],
+                                              fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Cumulative/",myvar.usr_results_year,"/"))
@@ -384,10 +438,13 @@ while (myvar.user_interface_state != "off") {
                              base::print("%")
                            },
                            "AS_L1" = {
-                             base::print("For which year do you want to create a plot? Example: 2022")
-                             myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
-                             
-                             myfun.plot_cum_a_sp(myvar.usr_results_year)
+
+                             myfun.plot_cum_a_sp(myvar.usr_results_year,
+                                                 fun_location1 = myvar.usr_location[1],
+                                                 fun_location2 = myvar.usr_location[2],
+                                                 fun_location3 = myvar.usr_location[3],
+                                                 fun_location4 = myvar.usr_location[4],
+                                                 fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
                              base::print(paste0("The files are located at: ./Grafik/Apistrip_L1/Cumulative/",myvar.usr_results_year,"/"))
