@@ -15,7 +15,7 @@ myvar.viridis_palette <- c("#fde725", "#b5de2b", "#6ece58", "#35b779", "#1f9e89"
 #for user interface
 myvar.usr_matrix <- c("a")
 myvar.usr_substance <- c("")
-
+myvar.usr_location <- c("a")
 
 
 
