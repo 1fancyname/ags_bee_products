@@ -215,14 +215,37 @@ while (myvar.user_interface_state != "off") {
                              base::print("For which location do you want to create the charts? Example: BC2")
                              myvar.usr_results_location  <- stringr::str_to_upper(base::as.character(base::readline("Enter here:"))) 
                              
-                             myfun.plot_substance_gt_loq_a(fun_year = myvar.usr_results_year,
-                                                           fun_location = myvar.usr_results_location)
-                             base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
+                             
+                             base::print("Type 1 to plot values greater than LOD. Type 2 to plot values greater than LOQ")
+                             myvar.usr_lo_filter  <- base::as.character(base::readline("Enter here:"))
+                             
+                             
+                             switch(myvar.usr_lo_filter,
+                                    "1" = {
+                                      #call function for plotting graphs
+                                      myfun.plot_substance_gt_loq_a(fun_year = myvar.usr_results_year,
+                                                                    fun_location = myvar.usr_results_location)
+                                      base::print("DONE")
+                                      base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
+                                      base::print("%")
+                                      base::print("%")
+                                      base::print("%")
+                                      base::print("%")
+                                    },
+                                    "2" = {
+                                      #call function for plotting graphs
+                                      myfun.plot_substance_gt_loq_a(fun_year = myvar.usr_results_year,
+                                                                    fun_location = myvar.usr_results_location)
+                                      base::print("DONE")
+                                      base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
+                                      base::print("%")
+                                      base::print("%")
+                                      base::print("%")
+                                      base::print("%")
+                                    }
+                             )
+                             
+                            
                              
                            },
                            "AS_L1" = {
