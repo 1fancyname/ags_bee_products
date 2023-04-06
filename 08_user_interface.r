@@ -223,7 +223,7 @@ while (myvar.user_interface_state != "off") {
                              switch(myvar.usr_lo_filter,
                                     "1" = {
                                       #call function for plotting graphs
-                                      myfun.plot_substance_gt_loq_a(fun_year = myvar.usr_results_year,
+                                      myfun.plot_substance_gt_lod_a(fun_year = myvar.usr_results_year,
                                                                     fun_location = myvar.usr_results_location)
                                       base::print("DONE")
                                       base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
