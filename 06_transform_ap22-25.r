@@ -172,9 +172,10 @@ tbl_avg_cum_bb <- dplyr::tibble(id = NA,
 #create table with average and cumulative values for each year && date && location && substance
 myvar.unique_year <- base::unique(tbl_results_bb$year)
 for (l in base::seq_along(myvar.unique_year)) {
-  myvar.unique_dates_bb_results <- base::unique(tbl_results_bb$sample_date)
+  tbl_tmp_results_year <- dplyr::filter(tbl_results_bb, year == myvar.unique_year[l])
+  myvar.unique_dates_bb_results <- base::unique(tbl_tmp_results_year$sample_date)
   for (i in base::seq_along(myvar.unique_dates_bb_results)) {
-    tbl_tmp_results <- dplyr::filter(tbl_results_bb, sample_date == myvar.unique_dates_bb_results[i])
+    tbl_tmp_results <- dplyr::filter(tbl_tmp_results_year, sample_date == myvar.unique_dates_bb_results[i])
     myvar.unique_locations_bb_results <- base::unique(tbl_tmp_results$location)
     for (j in base::seq_along(myvar.unique_locations_bb_results)) {
       tbl_tmp_results_location <- dplyr::filter(tbl_tmp_results, location == myvar.unique_locations_bb_results[j])
@@ -211,7 +212,8 @@ rm(myvar.unique_dates_bb_results,
    tbl_tmp_results_location,
    myvar.unique_substances_bb_results,
    tbl_tmp_results_substances,
-   myvar.unique_year)
+   myvar.unique_year,
+   tbl_tmp_results_year)
 
 
 #remove first observation
@@ -332,9 +334,10 @@ tbl_avg_cum_p <- dplyr::tibble(id = NA,
 #create table with average and cumulative values for each year && date && location && substance
 myvar.unique_year <- base::unique(tbl_results_p$year)
 for (l in base::seq_along(myvar.unique_year)) {
-  myvar.unique_dates_p_results <- base::unique(tbl_results_p$sample_date_start)
+  tbl_tmp_results_year <- dplyr::filter(tbl_results_p, year == myvar.unique_year[l])
+  myvar.unique_dates_p_results <- base::unique(tbl_tmp_results_year$sample_date_start)
   for (i in base::seq_along(myvar.unique_dates_p_results)) {
-    tbl_tmp_results <- dplyr::filter(tbl_results_p, sample_date_start == myvar.unique_dates_p_results[i])
+    tbl_tmp_results <- dplyr::filter(tbl_tmp_results_year, sample_date_start == myvar.unique_dates_p_results[i])
     myvar.unique_locations_p_results <- base::unique(tbl_tmp_results$location)
     for (j in base::seq_along(myvar.unique_locations_p_results)) {
       tbl_tmp_results_location <- dplyr::filter(tbl_tmp_results, location == myvar.unique_locations_p_results[j])
@@ -371,7 +374,8 @@ rm(myvar.unique_dates_p_results,
    tbl_tmp_results_location,
    myvar.unique_substances_p_results,
    tbl_tmp_results_substances,
-   myvar.unique_year)
+   myvar.unique_year,
+   tbl_tmp_results_year)
 
 
 #remove first observation (NA values)
@@ -497,9 +501,10 @@ tbl_avg_cum_w <- dplyr::tibble(id = NA,
 #create table with average and cumulative values for each year && date && location && substance
 myvar.unique_year <- base::unique(tbl_results_w$year)
 for (l in base::seq_along(myvar.unique_year)) {
-  myvar.unique_dates_w_results <- base::unique(tbl_results_w$sample_date)
+  tbl_tmp_results_year <- dplyr::filter(tbl_results_w, year == myvar.unique_year[l])
+  myvar.unique_dates_w_results <- base::unique(tbl_tmp_results_year$sample_date)
   for (i in base::seq_along(myvar.unique_dates_w_results)) {
-    tbl_tmp_results <- dplyr::filter(tbl_results_w, sample_date == myvar.unique_dates_w_results[i])
+    tbl_tmp_results <- dplyr::filter(tbl_tmp_results_year, sample_date == myvar.unique_dates_w_results[i])
     myvar.unique_locations_w_results <- base::unique(tbl_tmp_results$location)
     for (j in base::seq_along(myvar.unique_locations_w_results)) {
       tbl_tmp_results_location <- dplyr::filter(tbl_tmp_results, location == myvar.unique_locations_w_results[j])
@@ -536,7 +541,8 @@ rm(myvar.unique_dates_w_results,
    tbl_tmp_results_location,
    myvar.unique_substances_w_results,
    tbl_tmp_results_substances,
-   myvar.unique_year)
+   myvar.unique_year,
+   tbl_tmp_results_year)
 
 
 #remove first observation (NA Values)
@@ -655,9 +661,10 @@ tbl_avg_cum_a <- dplyr::tibble(id = NA,
 #create table with average and cumulative values for each year && date && location && substance
 myvar.unique_year <- base::unique(tbl_results_a$year)
 for (l in base::seq_along(myvar.unique_year)) {
-  myvar.unique_dates_a_results <- base::unique(tbl_results_a$sample_date)
+  tbl_tmp_results_year <- dplyr::filter(tbl_results_a, year == myvar.unique_year[l])
+  myvar.unique_dates_a_results <- base::unique(tbl_tmp_results_year$sample_date)
   for (i in base::seq_along(myvar.unique_dates_a_results)) {
-    tbl_tmp_results <- dplyr::filter(tbl_results_a, sample_date == myvar.unique_dates_a_results[i])
+    tbl_tmp_results <- dplyr::filter(tbl_tmp_results_year, sample_date == myvar.unique_dates_a_results[i])
     myvar.unique_locations_a_results <- base::unique(tbl_tmp_results$location)
     for (j in base::seq_along(myvar.unique_locations_a_results)) {
       tbl_tmp_results_location <- dplyr::filter(tbl_tmp_results, location == myvar.unique_locations_a_results[j])
@@ -694,7 +701,8 @@ rm(myvar.unique_dates_a_results,
    tbl_tmp_results_location,
    myvar.unique_substances_a_results,
    tbl_tmp_results_substances,
-   myvar.unique_year)
+   myvar.unique_year,
+   tbl_tmp_results_year)
 
 
 #remove first observation (NA values)
@@ -812,9 +820,10 @@ tbl_tmp_results_a_sp[tbl_tmp_results_a_sp == 0.00001] <- 0
 #create table with average and cumulative values for each year && date && location && substance
 myvar.unique_year <- base::unique(tbl_tmp_results_a_sp$year)
 for (l in base::seq_along(myvar.unique_year)) {
-  myvar.unique_dates_a_results <- base::unique(tbl_tmp_results_a_sp$sample_date)
+  tbl_tmp_results_year <- dplyr::filter(tbl_tmp_results_a_sp, year == myvar.unique_year[l])
+  myvar.unique_dates_a_results <- base::unique(tbl_tmp_results_year$sample_date)
   for (i in base::seq_along(myvar.unique_dates_a_results)) {
-    tbl_tmp_results <- dplyr::filter(tbl_tmp_results_a_sp, sample_date == myvar.unique_dates_a_results[i])
+    tbl_tmp_results <- dplyr::filter(tbl_tmp_results_year, sample_date == myvar.unique_dates_a_results[i])
     myvar.unique_locations_a_results <- base::unique(tbl_tmp_results$location)
     for (j in base::seq_along(myvar.unique_locations_a_results)) {
       tbl_tmp_results_location <- dplyr::filter(tbl_tmp_results, location == myvar.unique_locations_a_results[j])
@@ -852,7 +861,8 @@ rm(myvar.unique_dates_a_results,
    myvar.unique_substances_a_results,
    tbl_tmp_results_substances,
    myvar.unique_year,
-   tbl_tmp_results_a_sp)
+   tbl_tmp_results_a_sp,
+   tbl_tmp_results_year)
 
 
 #remove first observation (NA values)
