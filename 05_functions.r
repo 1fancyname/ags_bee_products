@@ -90,10 +90,13 @@ myfun.create_tbl_prevalence <- function(input_table, output_table){
   
   myvar.substances_unique <- base::unique(input_table$substance)
   myvar.location_short_unique <- base::unique(input_table$location_short)
+  myvar.year_unique <- base::unique(input_table$year)
   
   
+for (h in seq_along(myvar.year_unique)) {
+  tbl_tmp_year <- dplyr::filter(input_table, year == myvar.year_unique[h])
   for (i in base::seq_along(myvar.substances_unique)) {
-    tbl_tmp_sub <- dplyr::filter(input_table, substance == myvar.substances_unique[i])
+    tbl_tmp_sub <- dplyr::filter(tbl_tmp_year, substance == myvar.substances_unique[i])
     for (j in base::seq_along(myvar.location_short_unique)) {
       tbl_tmp_location <- dplyr::filter(tbl_tmp_sub, location_short == myvar.location_short_unique[j])
       tbl_tmp_location_gt_lod_lt_loq <- dplyr::filter(tbl_tmp_location, greater_than_lod == "TRUE", greater_than_loq == "FALSE")
@@ -104,18 +107,19 @@ myfun.create_tbl_prevalence <- function(input_table, output_table){
       myvar.tbl_tmp_location_gt_lod <- base::NROW(tbl_tmp_location_gt_lod)
       myvar.tbl_tmp_location_gt_loq <- base::NROW(tbl_tmp_location_gt_loq)
       output_table[nrow(output_table) + 1,] = base::list(tbl_tmp_location$substance[1],
-                                                                   myvar.location_short_unique[j],
-                                                                   tbl_tmp_location$year[1],
-                                                                   NROW(tbl_tmp_location),
-                                                                   NROW(tbl_tmp_location_gt_lod_lt_loq),
-                                                                   NROW(tbl_tmp_location_gt_lod),
-                                                                   NROW(tbl_tmp_location_gt_loq),
-                                                                   myvar.tbl_tmp_location_gt_lod_lt_loq / (myvar.tbl_tmp_location * 0.01),
-                                                                   myvar.tbl_tmp_location_gt_lod / (myvar.tbl_tmp_location * 0.01),
-                                                                   myvar.tbl_tmp_location_gt_loq / (myvar.tbl_tmp_location * 0.01))
+                                                         myvar.location_short_unique[j],
+                                                         tbl_tmp_location$year[1],
+                                                         NROW(tbl_tmp_location),
+                                                         NROW(tbl_tmp_location_gt_lod_lt_loq),
+                                                         NROW(tbl_tmp_location_gt_lod),
+                                                         NROW(tbl_tmp_location_gt_loq),
+                                                         myvar.tbl_tmp_location_gt_lod_lt_loq / (myvar.tbl_tmp_location * 0.01),
+                                                         myvar.tbl_tmp_location_gt_lod / (myvar.tbl_tmp_location * 0.01),
+                                                         myvar.tbl_tmp_location_gt_loq / (myvar.tbl_tmp_location * 0.01))
     }
   }
-  rm(i, j)
+}
+  rm(i, j, h)
   rm(tbl_tmp_sub,
      tbl_tmp_location,
      tbl_tmp_location_gt_lod_lt_loq,
@@ -126,7 +130,8 @@ myfun.create_tbl_prevalence <- function(input_table, output_table){
      myvar.tbl_tmp_location_gt_lod,
      myvar.tbl_tmp_location_gt_loq,
      myvar.substances_unique,
-     myvar.location_short_unique)
+     myvar.location_short_unique,
+     myvar.year_unique)
   
   #remove first observation (NA Values)
   output_table <- output_table[-1,]
