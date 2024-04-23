@@ -1,8 +1,8 @@
 #04_global_variables.r
 
 
-#stop user interface in case it is running
-myvar.user_interface_state <- "off"
+
+
 
 
 
