@@ -1,12 +1,12 @@
-#11_user-interface_pm_ppp.r
+#11_user-interface_pollenmonitoring_ppp.r
 
 
 
-myvar.user_interface_state <- "on"
+myvar.user_interface_pm_ppp_state <- "on"
 
-while (myvar.user_interface_state != "off") {
+while (myvar.user_interface_pm_ppp_state != "off") {
   base::print("PPP Pollenmonitoring")
-  base::print("To stop the user interface, press 'esc'. To and exit Project PPP Pollenmonitoring, type 'exit'.")
+  base::print("To stop the user interface, press 'esc'. To and exit project PPP Pollenmonitoring, type 'exit'.")
   base::print("")
   base::print("")
   base::print("Current status:")
@@ -17,14 +17,16 @@ while (myvar.user_interface_state != "off") {
   base::print("1 to re-load the data from Project PPP Pollenmonitoring.")
   base::print("2 to process the data from Project PPP Pollenmonitoring")
   base::print("3 to visualize the data from Project PPP Pollenmonitoring")
-  myvar.usr.choose_project <- base::as.character(base::readline("Enter here:")) 
-  switch(myvar.usr.choose_project,
+  myvar.usr.pm_ppp_choose_action <- base::as.character(base::readline("Enter here:")) 
+  switch(myvar.usr.pm_ppp_choose_action,
          "1" = {
            base::print("Loading PPP Pollenmonitoring data... ")
+           myvar.pm_ppp_re_load<- TRUE
            source("./99_modules/load_pollenmonitoring_ppp.r")
          },
          "2" = {
-           #
+           base::print("% Processing PPP Pollenmonitoring data... ")
+           source("./99_modules/12_transform_pollenmonitoring_ppp.r.r")
          },
          "3" = {
            #
