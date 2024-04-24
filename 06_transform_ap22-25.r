@@ -2,10 +2,6 @@
 
 
 
-#stop user interface in case it is running
-myvar.user_interface_state <- "off"
-
-
 # change datatypes --------------------------------------------------------
 
 
@@ -1080,5 +1076,6 @@ tbl_matrix_diff <- tbl_matrix_diff[-1,]
 
 tbl_matrix_diff[tbl_matrix_diff == -Inf] <- NA
 
+myvar.ap22_25_processed <- TRUE
 
 base::print("% Transformation of project AP22 - 25 data completed")
