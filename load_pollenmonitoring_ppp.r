@@ -25,17 +25,25 @@ if (myvar.fun_loaded == TRUE) {
   myvar.fun_loaded <- TRUE
 }
 
-if (myvar.pm_ppp_loaded == TRUE) {
-  base::print("% Data already loaded.")
+
+if (myvar.pm_ppp_re_load == TRUE) {
+  source("./99_modules/09_import_pm_ppp.r")
+  myvar.pm_ppp_loaded <-  TRUE
+  myvar.pm_ppp_processed <- FALSE
+  myvar.pm_ppp_processed <- FALSE
+  base::print("% PPP pollenmonitoring data successfully loaded")
   
 } else {
-  source("./99_modules/09_import_pollenmonitoring_ppp.r")
-  myvar.pm_ppp_loaded <-  TRUE
-  base::print("% PPP pollenmonitoring data successfully loaded")
+  if (myvar.pm_ppp_loaded == TRUE) {
+    base::print("% Data already loaded.")
+    
+  } else {
+    source("./99_modules/09_import_pm_ppp.r")
+    myvar.pm_ppp_loaded <-  TRUE
+    myvar.pm_ppp_processed <- FALSE
+    base::print("% PPP pollenmonitoring data successfully loaded")
+  }
 }
-
-
-
 
 
 
