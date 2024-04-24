@@ -1,8 +1,5 @@
 #09_import_pollenmonitoring_ppp.r
 
-#stop user interface in case it is running
-myvar.user_interface_state <- "off"
-
 
 base::print("% Getting working directory")
 myvar.cur_wd <- as.character(getwd())
