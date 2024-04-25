@@ -1750,10 +1750,195 @@ myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end
   }
   
 
+# pm_ppp add experiment data to results -----------------------------------
+
+
+myfun.pm_ppp_add_experiment_to_results <- function(fun_input_table, fun_date_column) {
+  fun_input_table <- dplyr::mutate(fun_input_table, year = lubridate::year(fun_date_column))
+  fun_input_table <- tibble::rowid_to_column(fun_input_table, "ID")
+  
+  fun_input_table <- dplyr::mutate(fun_input_table, pk_id_exp = NA,
+                                   sampling_start_exp = NA,
+                                   sampling_end_exp = NA,
+                                   fk_method = NA,
+                                   colony_1 = NA,
+                                   colony_2 = NA,
+                                   colony_3 = NA,
+                                   colony_4 = NA,
+                                   fk_beekeeper = NA)
+  
+  fun_input_table$sampling_start_exp <- as.Date(fun_input_table$sampling_start_exp)
+  fun_input_table$sampling_end_exp <- as.Date(fun_input_table$sampling_end_exp)
+  
+  myvar.tmp_unique_year <- base::unique(fun_input_table$year)
+  for (i in base::seq_along(myvar.tmp_unique_year)) {
+    tmp_tbl_year <- dplyr::filter(fun_input_table, year == myvar.tmp_unique_year[i])
+    myvar.tmp_unique_locations <- base::unique(tmp_tbl_year$location_short)
+    for (j in base::seq_along(myvar.tmp_unique_locations)) {
+      tmp_tbl_location <- dplyr::filter(tmp_tbl_year, location_short == myvar.tmp_unique_locations[j])
+      tmp_tbl_experiment  <- dplyr::filter(tbl_pm_ppp_experiments, year == myvar.tmp_unique_year[i], location_short == myvar.tmp_unique_locations[j])
+      for (h in 1:base::NROW(tmp_tbl_location)) {
+        myvar.cur_row <- tmp_tbl_location$ID[h]
+        fun_input_table$pk_id_exp[myvar.cur_row] <-  tmp_tbl_experiment$pk_id_exp[1]
+        fun_input_table$sampling_start_exp[myvar.cur_row] <-  base::as.Date(tmp_tbl_experiment$sampling_start_exp[1])
+        fun_input_table$sampling_end_exp[myvar.cur_row] <-  base::as.Date(tmp_tbl_experiment$sampling_end_exp[1])
+        fun_input_table$fk_method[myvar.cur_row] <-  tmp_tbl_experiment$fk_method[1]
+        fun_input_table$colony_1[myvar.cur_row] <-  tmp_tbl_experiment$colony_1[1]
+        fun_input_table$colony_2[myvar.cur_row] <-  tmp_tbl_experiment$colony_2[1]
+        fun_input_table$colony_3[myvar.cur_row] <-  tmp_tbl_experiment$colony_3[1]
+        fun_input_table$colony_4[myvar.cur_row] <-  tmp_tbl_experiment$colony_4[1]
+        fun_input_table$fk_beekeeper[myvar.cur_row] <-  tmp_tbl_experiment$fk_beekeeper[1]
+      }
+    }
+  }
+  rm(i, j, h)
+  rm(myvar.tmp_unique_year,
+     tmp_tbl_year,
+     myvar.cur_row)
+  
+  fun_input_table <- dplyr::select(fun_input_table, -ID)
+  base::return(fun_input_table)
+}
+
+
+
+
+
+# plot_prevalence_chart_pm_ppp ---------------------------------------------------
+
+myfun.pm_ppp_plot_prevalence <- function(fun_year){
+  tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year)
+  myvar.unique_locations <- base::unique(tmp_tbl$location_short)
+  for (i in seq_along(myvar.unique_locations)) {
+    myvar.cur_location_short <- myvar.unique_locations[i]
+    dplyr::filter(tbl_pm_ppp_percentage, location_short == myvar.unique_locations[i], percentage_type != "prct_gt_lod", percentage != 0, year == fun_year) %>%
+      ggplot(mapping = aes(
+        x = fct_rev(
+          factor(substance,
+                 levels = unique(substance[order(prevalence_gt_loq,
+                                                 prevalence_gt_lod_lt_loq,
+                                                 substance)]),
+                 ordered = TRUE)),
+        y = percentage,
+        fill = percentage_type)) +
+      geom_col() +
+      scale_fill_manual(values = myvar.prct_type_colours_viridis,
+                        labels = c(">LOD \n<LOQ", ">LOQ")) +
+      ggtitle(paste0(myvar.unique_locations[i])) +
+      theme(
+        axis.text.x = element_text(
+          angle = 45,
+          hjust = 1,
+          colour = "black",
+          size = 14
+        ),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title.y = element_text(size = 16),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(size = 20),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13)
+      ) +
+      ylab("Prevalence [%]") +
+      xlab("") +
+      labs(fill = "") +
+      scale_y_continuous(breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+                         expand = expansion(mult = c(0, .1)),
+                         limits = c(0, 100))
+    ggsave(paste0(myvar.cur_location_short, "_substance_prevalence.jpg"),
+           height = 2000,
+           width = 4000,
+           units = "px",
+           path = base::paste0("./Grafik/PPP_Pollenmonitoring/Prevalence/", fun_year,"/"))
+  }
+  rm(i)
+}
+
+
 
 
 
 # experimental ------------------------------------------------------------
+
+
+
+
+
+# create standard substance graph for pm ppp ------------------------------
+
+
+#for values greater than lod
+
+myfun.plot_pm_ppp_substance_gt_lod <- function(fun_year, fun_location){
+  tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location)
+  myvar.tmp1_sub_unique <- base::unique(tmp_tbl$substance)
+  for (i in base::seq_along(myvar.tmp1_sub_unique)) {
+    tmp_tbl_sub <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location, substance == myvar.tmp1_sub_unique[i])
+    for (j in 1:NROW(tmp_tbl_sub)) {
+      if (tmp_tbl_sub$greater_than_lod[j] == FALSE) {
+        tmp_tbl_sub$concentration[j] = 0
+      }
+    }
+    myvar.tmp_min_week <- base::min(tmp_tbl_sub$week)
+    myvar.tmp_max_week <- base::max(tmp_tbl_sub$week)
+    myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
+    myvar.tmp_week_labels <- myvar.tmp_week_breaks
+    myvar.tmp_max_conc <- base::max(tmp_tbl_sub$concentration)
+    tbl_tmp_missing <- dplyr::tibble(week = NA,
+                                     missing = NA)
+    
+    for (z in 1:length(myvar.tmp_week_labels)) {
+      tmp_tbl_week <- dplyr::filter(tmp_tbl_sub, week == myvar.tmp_week_labels[z])
+      if (base::NROW(tmp_tbl_week) > 0) {
+        tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(tmp_tbl_week$week[1],
+                                                            NA)
+        
+      } else {
+        tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(myvar.tmp_week_labels[z],
+                                                            0.1 * myvar.tmp_max_conc)
+      }
+    }
+
+      ggplot() +
+      geom_col(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration), fill = "#26828e") +
+      ggtitle(paste0(fun_location, " ", myvar.tmp1_sub_unique[i])) +
+      theme(
+        axis.text.x = element_text(
+          angle = 30,
+          hjust = 1,
+          colour = "black",
+          size = 12
+        ),
+        axis.title.x = element_text(size = 16),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title.y = element_text(size = 16),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(size = 20),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13)
+      ) +
+      xlab("Calendar Week") +
+      ylab("Conc. [\u00b5g/kg]") +
+      scale_y_continuous(expand = expansion(mult = c(0, .1)),
+                         limits = c(0, myvar.tmp_max_conc)) +
+      scale_x_continuous(breaks = myvar.tmp_week_breaks,
+                   labels = myvar.tmp_week_labels) +
+        geom_point(data = tbl_tmp_missing, mapping = aes(x = week,y = missing))
+    ggsave(paste0(fun_location, "_plot_",myvar.tmp1_sub_unique[i] ,"_gt_lod.jpg"),
+           height = 1080,
+           width = 2300,
+           units = "px",
+           path = base::paste0("./Grafik/PPP_Pollenmonitoring/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
+    
+  }
+}
+
+
+
+
+
 
 
 
