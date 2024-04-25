@@ -1857,14 +1857,6 @@ myfun.pm_ppp_plot_prevalence <- function(fun_year){
 
 
 
-
-
-# experimental ------------------------------------------------------------
-
-
-
-
-
 # create standard substance graph for pm ppp ------------------------------
 
 
@@ -1899,16 +1891,16 @@ myfun.plot_pm_ppp_substance_gt_lod <- function(fun_year, fun_location){
                                                             0.1 * myvar.tmp_max_conc)
       }
     }
-
-      ggplot() +
+    
+    ggplot() +
       geom_col(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration), fill = "#26828e") +
       ggtitle(paste0(fun_location, " ", myvar.tmp1_sub_unique[i])) +
       theme(
         axis.text.x = element_text(
-          angle = 30,
+          angle = 33,
           hjust = 1,
           colour = "black",
-          size = 12
+          size = 11
         ),
         axis.title.x = element_text(size = 16),
         axis.text.y = element_text(size = 14, colour = "black"),
@@ -1924,8 +1916,8 @@ myfun.plot_pm_ppp_substance_gt_lod <- function(fun_year, fun_location){
       scale_y_continuous(expand = expansion(mult = c(0, .1)),
                          limits = c(0, myvar.tmp_max_conc)) +
       scale_x_continuous(breaks = myvar.tmp_week_breaks,
-                   labels = myvar.tmp_week_labels) +
-        geom_point(data = tbl_tmp_missing, mapping = aes(x = week,y = missing))
+                         labels = myvar.tmp_week_labels) +
+      geom_point(data = tbl_tmp_missing, mapping = aes(x = week,y = missing), shape = 8)
     ggsave(paste0(fun_location, "_plot_",myvar.tmp1_sub_unique[i] ,"_gt_lod.jpg"),
            height = 1080,
            width = 2300,
@@ -1937,6 +1929,132 @@ myfun.plot_pm_ppp_substance_gt_lod <- function(fun_year, fun_location){
 
 
 
+#for values greater than loq
+
+myfun.plot_pm_ppp_substance_gt_loq <- function(fun_year, fun_location){
+  tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location)
+  myvar.tmp1_sub_unique <- base::unique(tmp_tbl$substance)
+  for (i in base::seq_along(myvar.tmp1_sub_unique)) {
+    tmp_tbl_sub <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location, substance == myvar.tmp1_sub_unique[i])
+    for (j in 1:NROW(tmp_tbl_sub)) {
+      if (tmp_tbl_sub$greater_than_loq[j] == FALSE) {
+        tmp_tbl_sub$concentration[j] = 0
+      }
+    }
+    myvar.tmp_min_week <- base::min(tmp_tbl_sub$week)
+    myvar.tmp_max_week <- base::max(tmp_tbl_sub$week)
+    myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
+    myvar.tmp_week_labels <- myvar.tmp_week_breaks
+    myvar.tmp_max_conc <- base::max(tmp_tbl_sub$concentration)
+    tbl_tmp_missing <- dplyr::tibble(week = NA,
+                                     missing = NA)
+    
+    for (z in 1:length(myvar.tmp_week_labels)) {
+      tmp_tbl_week <- dplyr::filter(tmp_tbl_sub, week == myvar.tmp_week_labels[z])
+      if (base::NROW(tmp_tbl_week) > 0) {
+        tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(tmp_tbl_week$week[1],
+                                                            NA)
+        
+      } else {
+        tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(myvar.tmp_week_labels[z],
+                                                            0.1 * myvar.tmp_max_conc)
+      }
+    }
+    
+    ggplot() +
+      geom_col(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration), fill = "#26828e") +
+      ggtitle(paste0(fun_location, " ", myvar.tmp1_sub_unique[i])) +
+      theme(
+        axis.text.x = element_text(
+          angle = 33,
+          hjust = 1,
+          colour = "black",
+          size = 11
+        ),
+        axis.title.x = element_text(size = 16),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title.y = element_text(size = 16),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(size = 20),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13)
+      ) +
+      xlab("Calendar Week") +
+      ylab("Conc. [\u00b5g/kg]") +
+      scale_y_continuous(expand = expansion(mult = c(0, .1)),
+                         limits = c(0, myvar.tmp_max_conc)) +
+      scale_x_continuous(breaks = myvar.tmp_week_breaks,
+                         labels = myvar.tmp_week_labels) +
+      geom_point(data = tbl_tmp_missing, mapping = aes(x = week,y = missing), shape = 8)
+    ggsave(paste0(fun_location, "_plot_",myvar.tmp1_sub_unique[i] ,"_gt_lod.jpg"),
+           height = 1080,
+           width = 2300,
+           units = "px",
+           path = base::paste0("./Grafik/PPP_Pollenmonitoring/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
+    
+  }
+}
+
+
+
+# experimental ------------------------------------------------------------
+
+
+
+
+myfun.plot_pm_ppp_substance_comp <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
+  myvar.tmp_substances <- base::unique(tbl_tmp$substance)
+  for (i in base::seq_along(myvar.tmp_substances)) {
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
+    myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp_cur_sub$location_short)
+    myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp_cur_sub$location_short))
+    myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
+    
+    myvar.tmp_min_week <- base::min(tbl_tmp_cur_sub$week)
+    myvar.tmp_max_week <- base::max(tbl_tmp_cur_sub$week)
+    myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
+    myvar.tmp_week_labels <- myvar.tmp_week_breaks
+    myvar.tmp_max_conc <- base::max(tbl_tmp_cur_sub$concentration)
+    
+     tbl_tmp_cur_sub %>%
+      ggplot(mapping = aes(x = year,y = concentration, fill = location_short)) +
+      geom_col(position = position_dodge2(preserve = "single")) +
+      scale_fill_manual(values = myvar.tmp_location_short_colours_viridis,
+                        labels = myvar.tmp_labels_location) +
+      ggtitle(paste0(myvar.tmp_substances[i])) +
+      theme(
+        axis.text.x = element_text(
+          angle = 33,
+          hjust = 1,
+          colour = "black",
+          size = 11
+        ),
+        axis.title.x = element_text(size = 16),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title.y = element_text(size = 16),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(size = 20),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13)
+      ) +
+      labs(fill = "Location") +
+      xlab("Calendar Week") +
+      ylab("Conc. [\u00b5g/kg]") +
+      scale_y_continuous(expand = expansion(mult = c(0, .1)),
+                         limits = c(0, myvar.tmp_max_conc)) +
+      scale_x_continuous(breaks = myvar.tmp_week_breaks,
+                         labels = myvar.tmp_week_labels)
+    ggsave(paste0("location_comparison_",myvar.tmp_substances[i],".jpg"),
+           height = 1080,
+           width = 2800,
+           units = "px",
+           path = paste0("./Grafik/PPP_Pollenmonitoring/Location_Comparison/", fun_year, "/"))
+  }
+  rm(i)
+}
 
 
 
