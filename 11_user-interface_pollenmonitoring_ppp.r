@@ -21,15 +21,28 @@ while (myvar.user_interface_pm_ppp_state != "off") {
   switch(myvar.usr.pm_ppp_choose_action,
          "1" = {
            base::print("Loading PPP Pollenmonitoring data... ")
-           myvar.pm_ppp_re_load<- TRUE
+           myvar.pm_ppp_re_load <- TRUE
            source("./99_modules/load_pollenmonitoring_ppp.r")
          },
          "2" = {
            base::print("% Processing PPP Pollenmonitoring data... ")
-           source("./99_modules/12_transform_pollenmonitoring_ppp.r.r")
+           source("./99_modules/12_transform_pollenmonitoring_ppp.r")
          },
          "3" = {
-           #
+           
+           if (myvar.pm_ppp_processed == TRUE) {
+             
+             base::print("% Starting PPP Pollenmonitoring export user interface... ")
+             source("./99_modules/16_user_interface_pollenmonitoring_ppp_export.r")
+             
+           } else {
+             
+             base::print("Error, data is not ready for export. ")
+             base::print("Please process data before visualizing/exporting. ")
+             base::print("%")
+             base::print("%")
+             base::print("%")
+           }
          },
          "exit" = {
            base::print("% Stopping user interface...")
