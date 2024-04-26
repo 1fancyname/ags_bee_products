@@ -88,15 +88,17 @@ myfun.create_tbl_prevalence <- function(input_table, output_table){
                               prct_gt_loq = NA)
   
   
-  myvar.substances_unique <- base::unique(input_table$substance)
-  myvar.location_short_unique <- base::unique(input_table$location_short)
+  
+  
   myvar.year_unique <- base::unique(input_table$year)
   
   
 for (h in seq_along(myvar.year_unique)) {
   tbl_tmp_year <- dplyr::filter(input_table, year == myvar.year_unique[h])
+  myvar.substances_unique <- base::unique(tbl_tmp_year$substance)
   for (i in base::seq_along(myvar.substances_unique)) {
     tbl_tmp_sub <- dplyr::filter(tbl_tmp_year, substance == myvar.substances_unique[i])
+    myvar.location_short_unique <- base::unique(tbl_tmp_sub$location_short)
     for (j in base::seq_along(myvar.location_short_unique)) {
       tbl_tmp_location <- dplyr::filter(tbl_tmp_sub, location_short == myvar.location_short_unique[j])
       tbl_tmp_location_gt_lod_lt_loq <- dplyr::filter(tbl_tmp_location, greater_than_lod == "TRUE", greater_than_loq == "FALSE")
@@ -205,7 +207,7 @@ myfun.plot_prevalence_bb <- function(fun_year){
            height = 2000,
            width = 4000,
            units = "px",
-           path = base::paste0("./Grafik/Beebread/Prevalence/", fun_year,"/"))
+           path = base::paste0("./Grafik/AP22-25/Beebread/Prevalence/", fun_year,"/"))
   }
   rm(i)
 }
@@ -258,7 +260,7 @@ myfun.plot_prevalence_p <- function(fun_year){
            height = 2000,
            width = 4000,
            units = "px",
-           path = base::paste0("./Grafik/Pollen/Prevalence/", fun_year,"/"))
+           path = base::paste0("./Grafik/AP22-25/Pollen/Prevalence/", fun_year,"/"))
   }
   rm(i)
 }
@@ -311,7 +313,7 @@ myfun.plot_prevalence_w <- function(fun_year){
            height = 2000,
            width = 4000,
            units = "px",
-           path = base::paste0("./Grafik/Wax/Prevalence/", fun_year,"/"))
+           path = base::paste0("./Grafik/AP22-25/Wax/Prevalence/", fun_year,"/"))
   }
   rm(i)
 }
@@ -364,7 +366,7 @@ myfun.plot_prevalence_a <- function(fun_year){
            height = 2000,
            width = 4000,
            units = "px",
-           path = base::paste0("./Grafik/Apistrip_L2/Prevalence/", fun_year,"/"))
+           path = base::paste0("./Grafik/AP22-25/Apistrip_L2/Prevalence/", fun_year,"/"))
   }
   rm(i)
 }
@@ -418,7 +420,7 @@ myfun.plot_prevalence_a_sp <- function(fun_year){
            height = 2000,
            width = 4000,
            units = "px",
-           path = base::paste0("./Grafik/Apistrip_L1/Prevalence/", fun_year,"/"))
+           path = base::paste0("./Grafik/AP22-25/Apistrip_L1/Prevalence/", fun_year,"/"))
   }
   rm(i)
 }
@@ -477,7 +479,7 @@ myfun.plot_substance_gt_loq_bb <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Beebread/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
+           path = base::paste0("./Grafik/AP22-25/Beebread/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
     
   }
 }
@@ -533,7 +535,7 @@ myfun.plot_substance_gt_lod_bb <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Beebread/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
+           path = base::paste0("./Grafik/AP22-25/Beebread/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
     
   }
 }
@@ -594,7 +596,7 @@ myfun.plot_substance_gt_loq_p <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Pollen/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
+           path = base::paste0("./Grafik/AP22-25/Pollen/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
     
   }
 }
@@ -650,7 +652,7 @@ myfun.plot_substance_gt_lod_p <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Pollen/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
+           path = base::paste0("./Grafik/AP22-25/Pollen/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
     
   }
 }
@@ -709,7 +711,7 @@ myfun.plot_substance_gt_loq_w <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Wax/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
+           path = base::paste0("./Grafik/AP22-25/Wax/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
     
   }
 }
@@ -765,7 +767,7 @@ myfun.plot_substance_gt_lod_w <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Wax/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
+           path = base::paste0("./Grafik/AP22-25/Wax/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
     
   }
 }
@@ -824,7 +826,7 @@ myfun.plot_substance_gt_loq_a <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Apistrip_L2/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
+           path = base::paste0("./Grafik/AP22-25/Apistrip_L2/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
     
   }
 }
@@ -880,7 +882,7 @@ myfun.plot_substance_gt_lod_a <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Apistrip_L2/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
+           path = base::paste0("./Grafik/AP22-25/Apistrip_L2/Substances/", fun_year,"/", fun_location, "/greater_than_lod/"))
     
   }
 }
@@ -940,7 +942,7 @@ myfun.plot_substance_gt_loq_a_sp <- function(fun_year, fun_location){
            height = 1080,
            width = 2300,
            units = "px",
-           path = base::paste0("./Grafik/Apistrip_L1/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
+           path = base::paste0("./Grafik/AP22-25/Apistrip_L1/Substances/", fun_year,"/", fun_location, "/greater_than_loq/"))
     
   }
 }
@@ -992,7 +994,7 @@ myfun.plot_avg_bb <- function(fun_year, fun_location1, fun_location2, fun_locati
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Beebread/Mean/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Beebread/Mean/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1043,7 +1045,7 @@ myfun.plot_avg_p <- function(fun_year, fun_location1, fun_location2, fun_locatio
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Pollen/Mean/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Pollen/Mean/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1094,7 +1096,7 @@ myfun.plot_avg_w <- function(fun_year, fun_location1, fun_location2, fun_locatio
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Wax/Mean/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Wax/Mean/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1145,7 +1147,7 @@ myfun.plot_avg_a <- function(fun_year, fun_location1, fun_location2, fun_locatio
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Apistrip_L2/Mean/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Apistrip_L2/Mean/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1197,7 +1199,7 @@ myfun.plot_avg_a_sp <- function(fun_year, fun_location1, fun_location2, fun_loca
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Apistrip_L1/Mean/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Apistrip_L1/Mean/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1248,7 +1250,7 @@ myfun.plot_cum_bb <- function(fun_year, fun_location1, fun_location2, fun_locati
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Beebread/Cumulative/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Beebread/Cumulative/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1299,7 +1301,7 @@ myfun.plot_cum_p <- function(fun_year, fun_location1, fun_location2, fun_locatio
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Pollen/Cumulative/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Pollen/Cumulative/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1350,7 +1352,7 @@ myfun.plot_cum_w <- function(fun_year, fun_location1, fun_location2, fun_locatio
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Wax/Cumulative/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Wax/Cumulative/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1401,7 +1403,7 @@ myfun.plot_cum_a <- function(fun_year, fun_location1, fun_location2, fun_locatio
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Apistrip_L2/Cumulative/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Apistrip_L2/Cumulative/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1454,7 +1456,7 @@ myfun.plot_cum_a_sp <- function(fun_year, fun_location1, fun_location2, fun_loca
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Apistrip_L1/Cumulative/", fun_year,"/"))
+           path = paste0("./Grafik/AP22-25/Apistrip_L1/Cumulative/", fun_year,"/"))
   }
   rm(i)
 }
@@ -1574,7 +1576,7 @@ myfun.plot_matrix_avg_comparison <- function(fun_year, fun_location, fun_matrix1
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Matrix_Comparison/Mean/", fun_year,"/", fun_location, "/"))
+           path = paste0("./Grafik/AP22-25/Matrix_Comparison/Mean/", fun_year,"/", fun_location, "/"))
   }
   rm(i)
 }
@@ -1629,7 +1631,7 @@ myfun.plot_matrix_avg_comparison_a <- function(fun_year, fun_location){
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/Matrix_Comparison/Apistrips/Mean/", fun_year,"/", fun_location, "/"))
+           path = paste0("./Grafik/AP22-25/Matrix_Comparison/Apistrips/Mean/", fun_year,"/", fun_location, "/"))
   }
   rm(i)
 }
@@ -1694,7 +1696,7 @@ myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end
            height = 2000,
            width = 4000,
            units = "px",
-           path = base::paste0("./Grafik/Wachsmonitoring/Substances/"))
+           path = base::paste0("./Grafik/Wachsmonitoring_PPP/Substances/"))
   }
 }
 
@@ -1745,7 +1747,7 @@ myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end
              height = 2000,
              width = 4000,
              units = "px",
-             path = paste0("./Grafik/Wachsmonitoring/Substance_Comparison/"))
+             path = paste0("./Grafik/Wachsmonitoring_PPP/Substance_Comparison/"))
 
   }
   
@@ -1885,16 +1887,14 @@ myfun.plot_pm_ppp_substance_gt_lod <- function(fun_year, fun_location){
       if (base::NROW(tmp_tbl_week) > 0) {
         tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(tmp_tbl_week$week[1],
                                                             NA)
-        
       } else {
         tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(myvar.tmp_week_labels[z],
                                                             0.1 * myvar.tmp_max_conc)
       }
     }
-    
     ggplot() +
-      geom_col(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration), fill = "#26828e") +
-      ggtitle(paste0(fun_location, " ", myvar.tmp1_sub_unique[i])) +
+      geom_col(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration), fill = "#35b779") +
+      ggtitle(paste0(myvar.tmp1_sub_unique[i], " ", fun_location)) +
       theme(
         axis.text.x = element_text(
           angle = 33,
@@ -1917,7 +1917,7 @@ myfun.plot_pm_ppp_substance_gt_lod <- function(fun_year, fun_location){
                          limits = c(0, myvar.tmp_max_conc)) +
       scale_x_continuous(breaks = myvar.tmp_week_breaks,
                          labels = myvar.tmp_week_labels) +
-      geom_point(data = tbl_tmp_missing, mapping = aes(x = week,y = missing), shape = 8)
+      geom_point(data = tbl_tmp_missing, mapping = aes(x = week,y = missing), shape = 4)
     ggsave(paste0(fun_location, "_plot_",myvar.tmp1_sub_unique[i] ,"_gt_lod.jpg"),
            height = 1080,
            width = 2300,
@@ -1954,7 +1954,6 @@ myfun.plot_pm_ppp_substance_gt_loq <- function(fun_year, fun_location){
       if (base::NROW(tmp_tbl_week) > 0) {
         tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(tmp_tbl_week$week[1],
                                                             NA)
-        
       } else {
         tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(myvar.tmp_week_labels[z],
                                                             0.1 * myvar.tmp_max_conc)
@@ -1962,8 +1961,8 @@ myfun.plot_pm_ppp_substance_gt_loq <- function(fun_year, fun_location){
     }
     
     ggplot() +
-      geom_col(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration), fill = "#26828e") +
-      ggtitle(paste0(fun_location, " ", myvar.tmp1_sub_unique[i])) +
+      geom_col(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration), fill = "#35b779") +
+      ggtitle(paste0(myvar.tmp1_sub_unique[i], " ", fun_location)) +
       theme(
         axis.text.x = element_text(
           angle = 33,
@@ -1986,7 +1985,7 @@ myfun.plot_pm_ppp_substance_gt_loq <- function(fun_year, fun_location){
                          limits = c(0, myvar.tmp_max_conc)) +
       scale_x_continuous(breaks = myvar.tmp_week_breaks,
                          labels = myvar.tmp_week_labels) +
-      geom_point(data = tbl_tmp_missing, mapping = aes(x = week,y = missing), shape = 8)
+      geom_point(data = tbl_tmp_missing, mapping = aes(x = week,y = missing), shape = 4)
     ggsave(paste0(fun_location, "_plot_",myvar.tmp1_sub_unique[i] ,"_gt_lod.jpg"),
            height = 1080,
            width = 2300,
@@ -1998,7 +1997,130 @@ myfun.plot_pm_ppp_substance_gt_loq <- function(fun_year, fun_location){
 
 
 
+
+# create tbl_prevalence for all locations -------------------------------------------------
+
+myfun.create_tbl_prevalence_ch <- function(input_table, output_table){
+  
+  output_table <- dplyr::tibble(substance = NA,
+                                year = NA,
+                                n_samples = NA,
+                                prevalence_gt_lod_lt_loq = NA,
+                                prevalence_gt_lod = NA,
+                                prevalence_gt_loq = NA,
+                                prct_gt_lod_lt_loq = NA,
+                                prct_gt_lod = NA,
+                                prct_gt_loq = NA)
+  
+  
+  
+  
+  myvar.year_unique <- base::unique(input_table$year)
+  
+  
+  for (h in seq_along(myvar.year_unique)) {
+    tbl_tmp_year <- dplyr::filter(input_table, year == myvar.year_unique[h])
+    myvar.substances_unique <- base::unique(tbl_tmp_year$substance)
+    for (i in base::seq_along(myvar.substances_unique)) {
+      tbl_tmp_sub <- dplyr::filter(tbl_tmp_year, substance == myvar.substances_unique[i])
+      tbl_tmp_sub_gt_lod_lt_loq <- dplyr::filter(tbl_tmp_sub, greater_than_lod == "TRUE", greater_than_loq == "FALSE")
+      tbl_tmp_sub_gt_lod <- dplyr::filter(tbl_tmp_sub, greater_than_lod == "TRUE")
+      tbl_tmp_sub_gt_loq <- dplyr::filter(tbl_tmp_sub, greater_than_loq == "TRUE")
+      myvar.tbl_tmp_sub <- base::NROW(tbl_tmp_sub)
+      myvar.tbl_tmp_sub_gt_lod_lt_loq <- base::NROW(tbl_tmp_sub_gt_lod_lt_loq)
+      myvar.tbl_tmp_sub_gt_lod <- base::NROW(tbl_tmp_sub_gt_lod)
+      myvar.tbl_tmp_sub_gt_loq <- base::NROW(tbl_tmp_sub_gt_loq)
+      output_table[nrow(output_table) + 1,] = base::list(tbl_tmp_sub$substance[1],
+                                                         tbl_tmp_sub$year[1],
+                                                         NROW(tbl_tmp_sub),
+                                                         NROW(tbl_tmp_sub_gt_lod_lt_loq),
+                                                         NROW(tbl_tmp_sub_gt_lod),
+                                                         NROW(tbl_tmp_sub_gt_loq),
+                                                         myvar.tbl_tmp_sub_gt_lod_lt_loq / (myvar.tbl_tmp_sub * 0.01),
+                                                         myvar.tbl_tmp_sub_gt_lod / (myvar.tbl_tmp_sub * 0.01),
+                                                         myvar.tbl_tmp_sub_gt_loq / (myvar.tbl_tmp_sub * 0.01))
+    }
+  }
+  rm(i, h)
+  rm(tbl_tmp_sub,
+     tbl_tmp_sub_gt_lod_lt_loq,
+     tbl_tmp_sub_gt_lod,
+     tbl_tmp_sub_gt_loq,
+     myvar.tbl_tmp_sub,
+     myvar.tbl_tmp_sub_gt_lod_lt_loq,
+     myvar.tbl_tmp_sub_gt_lod,
+     myvar.tbl_tmp_sub_gt_loq,
+     myvar.substances_unique,
+     myvar.year_unique)
+  
+  #remove first observation (NA Values)
+  output_table <- output_table[-1,]
+  
+  
+  base::return(output_table)
+}
+
+
+
+
+
+# plot_prevalence_chart_pm_ppp_ch ---------------------------------------------------
+
+myfun.pm_ppp_plot_prevalence_ch <- function(fun_year){
+  dplyr::filter(tbl_pm_ppp_percentage_ch, percentage_type != "prct_gt_lod", percentage != 0, year == fun_year) %>%
+    ggplot(mapping = aes(
+      x = fct_rev(
+        factor(substance,
+               levels = unique(substance[order(prevalence_gt_loq,
+                                               prevalence_gt_lod_lt_loq,
+                                               substance)]),
+               ordered = TRUE)),
+      y = percentage,
+      fill = percentage_type)) +
+    geom_col() +
+    scale_fill_manual(values = myvar.prct_type_colours_viridis,
+                      labels = c(">LOD \n<LOQ", ">LOQ")) +
+    ggtitle(paste0(fun_year)) +
+    theme(
+      axis.text.x = element_text(
+        angle = 45,
+        hjust = 1,
+        colour = "black",
+        size = 14
+      ),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.title.y = element_text(size = 16),
+      panel.background = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.title = element_text(size = 20),
+      legend.text = element_text(size = 12),
+      legend.title = element_text(size = 13)
+    ) +
+    ylab("Prevalence [%]") +
+    xlab("") +
+    labs(fill = "") +
+    scale_y_continuous(breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+                       expand = expansion(mult = c(0, .1)),
+                       limits = c(0, 100))
+  ggsave(paste0(fun_year, "_substance_prevalence.jpg"),
+         height = 2000,
+         width = 4000,
+         units = "px",
+         path = base::paste0("./Grafik/PPP_Pollenmonitoring/Prevalence/", fun_year,"/"))
+}
+
+
+
+
+
+
+
 # experimental ------------------------------------------------------------
+
+
+
+
+# pm_ppp location comparison by substance ---------------------------------
 
 
 
@@ -2055,6 +2177,16 @@ myfun.plot_pm_ppp_substance_comp <- function(fun_year, fun_location1, fun_locati
   }
   rm(i)
 }
+
+
+
+# plot trend for a substance over a year ----------------------------------
+
+
+#x %>%
+#ggplot(mapping = aes(x = week, y = concentration))+
+#geom_point()+
+#geom_smooth()
 
 
 
