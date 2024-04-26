@@ -34,8 +34,16 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
 
                   },
                   "ch2" = {
-                    base::print("prevalence CH not yet ready")
-                   
+                    base::print("For which year do you want to create the charts? Example: 2024")
+                    myvar.usr_prevalence_year  <- base::as.numeric(base::readline("Enter here:"))
+                    
+                    myfun.pm_ppp_plot_prevalence_ch(myvar.usr_prevalence_year)
+                    base::print("DONE")
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Prevalence/",myvar.usr_prevalence_year,"/"))
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
                     
                   },
                   "ch3" = {
