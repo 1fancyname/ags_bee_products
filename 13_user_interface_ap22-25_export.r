@@ -33,7 +33,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                              
                              myfun.plot_prevalence_bb(myvar.usr_prevalence_year)
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Beebread/Prevalence/",myvar.usr_prevalence_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Beebread/Prevalence/",myvar.usr_prevalence_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -46,7 +46,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                              
                              myfun.plot_prevalence_p(myvar.usr_prevalence_year)
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Pollen/Prevalence/",myvar.usr_prevalence_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Pollen/Prevalence/",myvar.usr_prevalence_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -58,7 +58,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                              
                              myfun.plot_prevalence_w(myvar.usr_prevalence_year)
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Wax/Prevalence/",myvar.usr_prevalence_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Wax/Prevalence/",myvar.usr_prevalence_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -70,7 +70,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                              
                              myfun.plot_prevalence_a(myvar.usr_prevalence_year)
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Prevalence/",myvar.usr_prevalence_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L2/Prevalence/",myvar.usr_prevalence_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -82,7 +82,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                              
                              myfun.plot_prevalence_a_sp(myvar.usr_prevalence_year)
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L1/Prevalence/",myvar.usr_prevalence_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L1/Prevalence/",myvar.usr_prevalence_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -115,7 +115,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                       myfun.plot_substance_gt_lod_bb(fun_year = myvar.usr_year,
                                                                      fun_location = myvar.usr_results_location)
                                       base::print("DONE")
-                                      base::print(paste0("The files are located at: ./Grafik/Beebread/Substances/", myvar.usr_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
+                                      base::print(paste0("The files are located at: ./Grafik/AP22-25/Beebread/Substances/", myvar.usr_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
                                       base::print("%")
                                       base::print("%")
                                       base::print("%")
@@ -127,7 +127,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                                      fun_location = myvar.usr_results_location)
                                       
                                       base::print("DONE")
-                                      base::print(paste0("The files are located at: ./Grafik/Beebread/Substances/", myvar.usr_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
+                                      base::print(paste0("The files are located at: ./Grafik/AP22-25/Beebread/Substances/", myvar.usr_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
                                       base::print("%")
                                       base::print("%")
                                       base::print("%")
@@ -151,7 +151,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                       myfun.plot_substance_gt_lod_p(fun_year = myvar.usr_results_year,
                                                                     fun_location = myvar.usr_results_location)
                                       base::print("DONE")
-                                      base::print(paste0("The files are located at: ./Grafik/Pollen/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
+                                      base::print(paste0("The files are located at: ./Grafik/AP22-25/Pollen/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
                                       base::print("%")
                                       base::print("%")
                                       base::print("%")
@@ -163,7 +163,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                                     fun_location = myvar.usr_results_location)
                                       
                                       base::print("DONE")
-                                      base::print(paste0("The files are located at: ./Grafik/Pollen/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
+                                      base::print(paste0("The files are located at: ./Grafik/AP22-25/Pollen/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
                                       base::print("%")
                                       base::print("%")
                                       base::print("%")
@@ -189,7 +189,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                       myfun.plot_substance_gt_lod_w(fun_year = myvar.usr_results_year,
                                                                     fun_location = myvar.usr_results_location)
                                       base::print("DONE")
-                                      base::print(paste0("The files are located at: ./Grafik/Wax/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
+                                      base::print(paste0("The files are located at: ./Grafik/AP22-25/Wax/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
                                       base::print("%")
                                       base::print("%")
                                       base::print("%")
@@ -201,7 +201,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                                     fun_location = myvar.usr_results_location)
                                       
                                       base::print("DONE")
-                                      base::print(paste0("The files are located at: ./Grafik/Wax/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
+                                      base::print(paste0("The files are located at: ./Grafik/AP22-25/Wax/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
                                       base::print("%")
                                       base::print("%")
                                       base::print("%")
@@ -227,7 +227,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                       myfun.plot_substance_gt_lod_a(fun_year = myvar.usr_results_year,
                                                                     fun_location = myvar.usr_results_location)
                                       base::print("DONE")
-                                      base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
+                                      base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L2/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_lod/"))
                                       base::print("%")
                                       base::print("%")
                                       base::print("%")
@@ -238,7 +238,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                       myfun.plot_substance_gt_loq_a(fun_year = myvar.usr_results_year,
                                                                     fun_location = myvar.usr_results_location)
                                       base::print("DONE")
-                                      base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
+                                      base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L2/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
                                       base::print("%")
                                       base::print("%")
                                       base::print("%")
@@ -261,7 +261,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                               fun_location = myvar.usr_results_location)
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L1/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L1/Substances/", myvar.usr_results_year,"/", myvar.usr_results_location, "/greater_than_loq/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -303,7 +303,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Beebread/Average/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Beebread/Average/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -319,7 +319,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                               fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Pollen/Average/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Pollen/Average/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -335,7 +335,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                               fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Wax/Average/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Wax/Average/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -351,7 +351,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                               fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Average/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L2/Average/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -367,7 +367,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                  fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L1/Average/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L1/Average/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -407,7 +407,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Beebread/Cumulative/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Beebread/Cumulative/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -423,7 +423,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                               fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Pollen/Cumulative/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Pollen/Cumulative/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -439,7 +439,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                               fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Wax/Cumulative/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Wax/Cumulative/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -455,7 +455,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                               fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L2/Cumulative/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L2/Cumulative/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -471,7 +471,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                  fun_location5 = myvar.usr_location[5])
                              
                              base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/Apistrip_L1/Cumulative/",myvar.usr_results_year,"/"))
+                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L1/Cumulative/",myvar.usr_results_year,"/"))
                              base::print("%")
                              base::print("%")
                              base::print("%")
@@ -506,7 +506,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                      fun_matrix3 = myvar.usr_matrix[3])
                     
                     base::print("DONE")
-                    base::print(paste0("The files are located at: ./Grafik/Matrix_Comparison/Mean/",myvar.usr_results_year,"/", myvar.usr_results_location, "/"))
+                    base::print(paste0("The files are located at: ./Grafik/AP22-25/Matrix_Comparison/Mean/",myvar.usr_results_year,"/", myvar.usr_results_location, "/"))
                     base::print("%")
                     base::print("%")
                     base::print("%")
@@ -526,7 +526,7 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                                                        fun_location = myvar.usr_results_location)
                     
                     base::print("DONE")
-                    base::print(paste0("The files are located at: ./Grafik/Matrix_Comparison/Apistrips/Mean/",myvar.usr_results_year,"/", myvar.usr_results_location, "/"))
+                    base::print(paste0("The files are located at: ./Grafik/AP22-25/Matrix_Comparison/Apistrips/Mean/",myvar.usr_results_year,"/", myvar.usr_results_location, "/"))
                     base::print("%")
                     base::print("%")
                     base::print("%")
