@@ -30,7 +30,7 @@ while (myvar.user_interface_wm_ppp_export_state != "off") {
                                                             fun_year_end = myvar.usr_results_year2)
                     
                     base::print("DONE")
-                    base::print(paste0("The files are located at: ./Grafik/Wachsmonitoring/Substances/"))
+                    base::print(paste0("The files are located at: ./Grafik/Wachsmonitoring_PPP/Substances/"))
                     base::print("%")
                     base::print("%")
                     base::print("%")
@@ -65,7 +65,7 @@ while (myvar.user_interface_wm_ppp_export_state != "off") {
                                                          fun_year_end = myvar.usr_results_year2)
                     
                     base::print("DONE")
-                    base::print(paste0("The files are located at: ./Grafik/Wachsmonitoring/Substance_Comparison/"))
+                    base::print(paste0("The files are located at: ./Grafik/Wachsmonitoring_PPP/Substance_Comparison/"))
                     base::print("%")
                     base::print("%")
                     base::print("%")
