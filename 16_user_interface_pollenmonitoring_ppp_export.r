@@ -90,19 +90,35 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     
                     base::print("Choose which locations you want to compare. Example: BC2")
                     base::print("Leave prompt empty and hit enter if the desired locations have been chosen.")
-                    myvar.usr_location[1]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))) 
-                    myvar.usr_location[2]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))) 
-                    myvar.usr_location[3]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter third location here:"))))
-                    myvar.usr_location[4]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter fourth location here:")))) 
-                    myvar.usr_location[5]  <- as.vector(stringr::str_to_upper(base::as.character(base::readline("Enter fifth location here:")))) 
+                    myvar.usr_location1  <- stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))
+                    myvar.usr_location2 <- stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))
+                    myvar.usr_location3  <- stringr::str_to_upper(base::as.character(base::readline("Enter third location here:")))
+                    myvar.usr_location4  <- stringr::str_to_upper(base::as.character(base::readline("Enter fourth location here:"))) 
+                    myvar.usr_location5  <- stringr::str_to_upper(base::as.character(base::readline("Enter fifth location here:"))) 
                     myvar.usr_location <- unique(myvar.usr_location)
+                    base::print("Select the timeframe. If you leave the prompt empty, all results will be plotted.")
+                    myvar.usr_start_week <- as.numeric(base::readline("Enter first calendar week:"))
+                    myvar.usr_end_week <- as.numeric(base::readline("Enter last calendar week:"))
                     
-                    myfun.plot_pm_ppp_substance_comp(myvar.usr_results_year,
-                                      fun_location1 = myvar.usr_location[1],
-                                      fun_location2 = myvar.usr_location[2],
-                                      fun_location3 = myvar.usr_location[3],
-                                      fun_location4 = myvar.usr_location[4],
-                                      fun_location5 = myvar.usr_location[5])
+                    if (myvar.usr_start_week == "") {
+                      myfun.plot_pm_ppp_location_comp_def(myvar.usr_results_year,
+                                                          fun_location1 = myvar.usr_location1,
+                                                          fun_location2 = myvar.usr_location2,
+                                                          fun_location3 = myvar.usr_location3,
+                                                          fun_location4 = myvar.usr_location4,
+                                                          fun_location5 = myvar.usr_location5)
+                    } else {
+                      myfun.plot_pm_ppp_location_comp_time(myvar.usr_results_year,
+                                                      fun_location1 = myvar.usr_location1,
+                                                      fun_location2 = myvar.usr_location2,
+                                                      fun_location3 = myvar.usr_location3,
+                                                      fun_location4 = myvar.usr_location4,
+                                                      fun_location5 = myvar.usr_location5,
+                                                      fun_start_week = myvar.usr_start_week,
+                                                      fun_end_week = myvar.usr_end_week)
+                    }
+                    
+                    
                   }
            )
          }, 
