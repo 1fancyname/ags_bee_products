@@ -2120,28 +2120,88 @@ myfun.pm_ppp_plot_prevalence_ch <- function(fun_year){
 
 
 
-# pm_ppp location comparison by substance ---------------------------------
+# pm_ppp location comparison by substance timeframe---------------------------------
 
 
 
 
-myfun.plot_pm_ppp_substance_comp <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
-  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
+myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5, fun_start_week, fun_end_week){
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5, week >= fun_start_week, week <= fun_end_week)
   myvar.tmp_substances <- base::unique(tbl_tmp$substance)
   for (i in base::seq_along(myvar.tmp_substances)) {
-    tbl_tmp_cur_sub <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, substance == myvar.tmp_substances[i], location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_tmp, substance == myvar.tmp_substances[i])
     myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp_cur_sub$location_short)
     myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp_cur_sub$location_short))
     myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
     
-    myvar.tmp_min_week <- base::min(tbl_tmp_cur_sub$week)
-    myvar.tmp_max_week <- base::max(tbl_tmp_cur_sub$week)
+    myvar.tmp_min_week <- base::min(tbl_tmp$week)
+    myvar.tmp_max_week <- base::max(tbl_tmp$week)
     myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
     myvar.tmp_week_labels <- myvar.tmp_week_breaks
     myvar.tmp_max_conc <- base::max(tbl_tmp_cur_sub$concentration)
     
      tbl_tmp_cur_sub %>%
-      ggplot(mapping = aes(x = year,y = concentration, fill = location_short)) +
+      ggplot(mapping = aes(x = week,y = concentration, fill = location_short)) +
+      geom_col(position = position_dodge2(preserve = "single")) +
+      scale_fill_manual(values = myvar.tmp_location_short_colours_viridis,
+                        labels = myvar.tmp_labels_location) +
+      ggtitle(paste0(myvar.tmp_substances[i])) +
+      theme(
+        axis.text.x = element_text(
+          angle = 33,
+          hjust = 1,
+          colour = "black",
+          size = 11
+        ),
+        axis.title.x = element_text(size = 16),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title.y = element_text(size = 16),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(size = 20),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13)
+      ) +
+      labs(fill = "Location") +
+      xlab("Calendar Week") +
+      ylab("Conc. [\u00b5g/kg]") +
+      scale_y_continuous(expand = expansion(mult = c(0, .1)),
+                         limits = c(0, myvar.tmp_max_conc)) +
+      scale_x_continuous(breaks = myvar.tmp_week_breaks,
+                         labels = myvar.tmp_week_labels)
+    ggsave(paste0("location_comparison_",myvar.tmp_substances[i],".jpg"),
+           height = 1080,
+           width = 2800,
+           units = "px",
+           path = paste0("./Grafik/PPP_Pollenmonitoring/Location_Comparison/", fun_year, "/"))
+  }
+  rm(i)
+}
+
+
+
+# pm_ppp location comparison by substance default---------------------------------
+
+
+
+
+myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
+  myvar.tmp_substances <- base::unique(tbl_tmp$substance)
+  for (i in base::seq_along(myvar.tmp_substances)) {
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_tmp, substance == myvar.tmp_substances[i])
+    myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp_cur_sub$location_short)
+    myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp_cur_sub$location_short))
+    myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
+    
+    myvar.tmp_min_week <- base::min(tbl_tmp$week)
+    myvar.tmp_max_week <- base::max(tbl_tmp$week)
+    myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
+    myvar.tmp_week_labels <- myvar.tmp_week_breaks
+    myvar.tmp_max_conc <- base::max(tbl_tmp_cur_sub$concentration)
+    
+    tbl_tmp_cur_sub %>%
+      ggplot(mapping = aes(x = week,y = concentration, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
       scale_fill_manual(values = myvar.tmp_location_short_colours_viridis,
                         labels = myvar.tmp_labels_location) +
@@ -2183,12 +2243,32 @@ myfun.plot_pm_ppp_substance_comp <- function(fun_year, fun_location1, fun_locati
 # plot trend for a substance over a year ----------------------------------
 
 
-#x %>%
-#ggplot(mapping = aes(x = week, y = concentration))+
-#geom_point()+
-#geom_smooth()
+#dplyr::filter(tbl_pm_ppp_results, year == 2027, substance == "Mandipropamid") %>%
+#ggplot(mapping = aes(x = week, y = concentration)) +
+#geom_point() +
+#geom_smooth(method = "loess", 
+#            se = TRUE,
+#            span = 0.3)
+
+
+#dplyr::filter(tbl_pm_ppp_results, substance == "Azoxystrobin") %>%
+#  ggplot(mapping = aes(x = sample_date, y = concentration)) +
+#  geom_point() +
+#  geom_smooth()
+
+
+
+#dplyr::filter(tbl_pm_ppp_results, substance == "Azoxystrobin") %>%
+#  ggplot(mapping = aes(x = year, y = concentration)) +
+#  geom_point() +
+#  geom_smooth(method = "gam", 
+#              se = TRUE,
+#              span = 0.5)
 
 
 
 
 
+#dplyr::filter(tbl_pm_ppp_results, year == 2024, substance == "Mandipropamid") %>%
+#  ggplot(mapping = aes(location_short)) +
+#  geom_density()
