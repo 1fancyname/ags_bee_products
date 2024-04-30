@@ -1651,11 +1651,6 @@ myfun.export_tbl_matrix_diff <- function(fun_year) {
 
 
 
-
-
-
-
-
 # create_standard_substance_plot_wm -------------------------------------
 
 myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end) {
@@ -1699,9 +1694,6 @@ myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end
            path = base::paste0("./Grafik/Wachsmonitoring_PPP/Substances/"))
   }
 }
-
-
-
 
 
 
@@ -1751,6 +1743,7 @@ myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end
 
   }
   
+
 
 # pm_ppp add experiment data to results -----------------------------------
 
@@ -1804,9 +1797,8 @@ myfun.pm_ppp_add_experiment_to_results <- function(fun_input_table, fun_date_col
 
 
 
-
-
 # plot_prevalence_chart_pm_ppp ---------------------------------------------------
+
 
 myfun.pm_ppp_plot_prevalence <- function(fun_year){
   tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year)
@@ -1856,6 +1848,7 @@ myfun.pm_ppp_plot_prevalence <- function(fun_year){
   }
   rm(i)
 }
+
 
 
 
@@ -1931,6 +1924,7 @@ myfun.plot_pm_ppp_substance_gt_lod <- function(fun_year, fun_location){
 
 #for values greater than loq
 
+
 myfun.plot_pm_ppp_substance_gt_loq <- function(fun_year, fun_location){
   tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location)
   myvar.tmp1_sub_unique <- base::unique(tmp_tbl$substance)
@@ -1997,8 +1991,8 @@ myfun.plot_pm_ppp_substance_gt_loq <- function(fun_year, fun_location){
 
 
 
-
 # create tbl_prevalence for all locations -------------------------------------------------
+
 
 myfun.create_tbl_prevalence_ch <- function(input_table, output_table){
   
@@ -2062,9 +2056,8 @@ myfun.create_tbl_prevalence_ch <- function(input_table, output_table){
 
 
 
-
-
 # plot_prevalence_chart_pm_ppp_ch ---------------------------------------------------
+
 
 myfun.pm_ppp_plot_prevalence_ch <- function(fun_year){
   dplyr::filter(tbl_pm_ppp_percentage_ch, percentage_type != "prct_gt_lod", percentage != 0, year == fun_year) %>%
@@ -2111,18 +2104,7 @@ myfun.pm_ppp_plot_prevalence_ch <- function(fun_year){
 
 
 
-
-
-
-
-# experimental ------------------------------------------------------------
-
-
-
-
 # pm_ppp location comparison by substance timeframe---------------------------------
-
-
 
 
 myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5, fun_start_week, fun_end_week){
@@ -2140,7 +2122,7 @@ myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_lo
     myvar.tmp_week_labels <- myvar.tmp_week_breaks
     myvar.tmp_max_conc <- base::max(tbl_tmp_cur_sub$concentration)
     
-     tbl_tmp_cur_sub %>%
+    tbl_tmp_cur_sub %>%
       ggplot(mapping = aes(x = week,y = concentration, fill = location_short)) +
       geom_col(position = position_dodge2(preserve = "single")) +
       scale_fill_manual(values = myvar.tmp_location_short_colours_viridis,
@@ -2173,7 +2155,7 @@ myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_lo
            height = 1080,
            width = 2800,
            units = "px",
-           path = paste0("./Grafik/PPP_Pollenmonitoring/Location_Comparison/", fun_year, "/"))
+           path = paste0("./Grafik/PPP_Pollenmonitoring/Location_Comparison_Custom/", fun_year, "/"))
   }
   rm(i)
 }
@@ -2181,8 +2163,6 @@ myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_lo
 
 
 # pm_ppp location comparison by substance default---------------------------------
-
-
 
 
 myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
@@ -2237,6 +2217,16 @@ myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_loc
   }
   rm(i)
 }
+
+
+
+
+
+# experimental ------------------------------------------------------------
+
+
+
+
 
 
 
