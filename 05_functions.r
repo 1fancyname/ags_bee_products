@@ -1753,8 +1753,6 @@ myfun.pm_ppp_add_experiment_to_results <- function(fun_input_table, fun_date_col
   fun_input_table <- tibble::rowid_to_column(fun_input_table, "ID")
   
   fun_input_table <- dplyr::mutate(fun_input_table, pk_id_exp = NA,
-                                   sampling_start_exp = NA,
-                                   sampling_end_exp = NA,
                                    fk_method = NA,
                                    colony_1 = NA,
                                    colony_2 = NA,
@@ -1762,8 +1760,7 @@ myfun.pm_ppp_add_experiment_to_results <- function(fun_input_table, fun_date_col
                                    colony_4 = NA,
                                    fk_beekeeper = NA)
   
-  fun_input_table$sampling_start_exp <- as.Date(fun_input_table$sampling_start_exp)
-  fun_input_table$sampling_end_exp <- as.Date(fun_input_table$sampling_end_exp)
+  
   
   myvar.tmp_unique_year <- base::unique(fun_input_table$year)
   for (i in base::seq_along(myvar.tmp_unique_year)) {
@@ -1775,8 +1772,6 @@ myfun.pm_ppp_add_experiment_to_results <- function(fun_input_table, fun_date_col
       for (h in 1:base::NROW(tmp_tbl_location)) {
         myvar.cur_row <- tmp_tbl_location$ID[h]
         fun_input_table$pk_id_exp[myvar.cur_row] <-  tmp_tbl_experiment$pk_id_exp[1]
-        fun_input_table$sampling_start_exp[myvar.cur_row] <-  base::as.Date(tmp_tbl_experiment$sampling_start_exp[1])
-        fun_input_table$sampling_end_exp[myvar.cur_row] <-  base::as.Date(tmp_tbl_experiment$sampling_end_exp[1])
         fun_input_table$fk_method[myvar.cur_row] <-  tmp_tbl_experiment$fk_method[1]
         fun_input_table$colony_1[myvar.cur_row] <-  tmp_tbl_experiment$colony_1[1]
         fun_input_table$colony_2[myvar.cur_row] <-  tmp_tbl_experiment$colony_2[1]
