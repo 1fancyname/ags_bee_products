@@ -96,32 +96,81 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     myvar.usr_location4  <- stringr::str_to_upper(base::as.character(base::readline("Enter fourth location here:"))) 
                     myvar.usr_location5  <- stringr::str_to_upper(base::as.character(base::readline("Enter fifth location here:"))) 
                     myvar.usr_location <- unique(myvar.usr_location)
-                    base::print("Select the timeframe. If you leave the prompt empty, all results will be plotted.")
+                  
+                    
+                    myfun.plot_pm_ppp_location_comp_def(myvar.usr_results_year,
+                                                        fun_location1 = myvar.usr_location1,
+                                                        fun_location2 = myvar.usr_location2,
+                                                        fun_location3 = myvar.usr_location3,
+                                                        fun_location4 = myvar.usr_location4,
+                                                        fun_location5 = myvar.usr_location5)
+                    
+                    base::print("DONE")
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Location_Comparison/", myvar.usr_year))
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                  },
+                  "ch5" = {
+                    base::print("For which year do you want to create a plot? Example: 2024")
+                    myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
+                    
+                    
+                    base::print("Choose which locations you want to compare. Example: BC2")
+                    base::print("Leave prompt empty and hit enter if the desired locations have been chosen.")
+                    myvar.usr_location1  <- stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))
+                    myvar.usr_location2 <- stringr::str_to_upper(base::as.character(base::readline("Enter first location here:")))
+                    myvar.usr_location3  <- stringr::str_to_upper(base::as.character(base::readline("Enter third location here:")))
+                    myvar.usr_location4  <- stringr::str_to_upper(base::as.character(base::readline("Enter fourth location here:"))) 
+                    myvar.usr_location5  <- stringr::str_to_upper(base::as.character(base::readline("Enter fifth location here:"))) 
+                    myvar.usr_location <- unique(myvar.usr_location)
+                    base::print("Select the timeframe.")
                     myvar.usr_start_week <- as.numeric(base::readline("Enter first calendar week:"))
                     myvar.usr_end_week <- as.numeric(base::readline("Enter last calendar week:"))
                     
-                    if (myvar.usr_start_week == "") {
-                      myfun.plot_pm_ppp_location_comp_def(myvar.usr_results_year,
-                                                          fun_location1 = myvar.usr_location1,
-                                                          fun_location2 = myvar.usr_location2,
-                                                          fun_location3 = myvar.usr_location3,
-                                                          fun_location4 = myvar.usr_location4,
-                                                          fun_location5 = myvar.usr_location5)
-                    } else {
-                      myfun.plot_pm_ppp_location_comp_time(myvar.usr_results_year,
-                                                      fun_location1 = myvar.usr_location1,
-                                                      fun_location2 = myvar.usr_location2,
-                                                      fun_location3 = myvar.usr_location3,
-                                                      fun_location4 = myvar.usr_location4,
-                                                      fun_location5 = myvar.usr_location5,
-                                                      fun_start_week = myvar.usr_start_week,
-                                                      fun_end_week = myvar.usr_end_week)
-                    }
+                    myfun.plot_pm_ppp_location_comp_time(myvar.usr_results_year,
+                                                         fun_location1 = myvar.usr_location1,
+                                                         fun_location2 = myvar.usr_location2,
+                                                         fun_location3 = myvar.usr_location3,
+                                                         fun_location4 = myvar.usr_location4,
+                                                         fun_location5 = myvar.usr_location5,
+                                                         fun_start_week = myvar.usr_start_week,
+                                                         fun_end_week = myvar.usr_end_week)
                     
+                    base::print("DONE")
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Location_Comparison_Custom/", myvar.usr_year))
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                  }
+           )
+         },
+         "2" = {
+           base::print("Which table would you like to export? There is a comprehensive list of all types in the user manual.")
+           myvar.usr.table_type <- stringr::str_to_lower(base::as.character(base::readline("Enter table-id here:")))
+           
+           switch(myvar.usr.table_type,
+                  "tbl1" = {
+                    
+                  },
+                  "tbl2" = {
+                    
+                  
+                    
+                  },
+                  "tbl3" = {
+                    
+                  },
+                  "tbl4" = {
+                    
+                  },
+                  "tbl5" = {
                     
                   }
            )
-         }, 
+         },
          "exit" = {
            base::print("% Stopping user interface...")
            base::print("%")
