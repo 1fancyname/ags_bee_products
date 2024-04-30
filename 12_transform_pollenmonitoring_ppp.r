@@ -10,8 +10,6 @@ tbl_pm_ppp_colonies$ags_col_number <- base::as.character(tbl_pm_ppp_colonies$ags
 
 
 #tbl_pm_ppp_experiments
-tbl_pm_ppp_experiments$sampling_start_exp <- base::as.Date(tbl_pm_ppp_experiments$sampling_start_exp, format = "%d.%m.%Y")
-tbl_pm_ppp_experiments$sampling_end_exp <- base::as.Date(tbl_pm_ppp_experiments$sampling_end_exp, format = "%d.%m.%Y")
 tbl_pm_ppp_experiments$colony_1 <- base::as.character(tbl_pm_ppp_experiments$colony_1)
 tbl_pm_ppp_experiments$colony_2 <- base::as.character(tbl_pm_ppp_experiments$colony_2)
 tbl_pm_ppp_experiments$colony_3 <- base::as.character(tbl_pm_ppp_experiments$colony_3)
@@ -46,6 +44,8 @@ tbl_pm_ppp_results <- tbl_pm_ppp_results %>%
 
 
 
+
+
 base::print("% Transforming beebread results table to long format.")
 
 #pivot longer
@@ -56,6 +56,11 @@ tbl_pm_ppp_results <- tbl_pm_ppp_results %>%
     values_to = "concentration",
     values_drop_na = FALSE
   )
+
+#add information from tbl_pm_ppp_substances
+tbl_pm_ppp_results <- tbl_pm_ppp_results %>% 
+  dplyr::inner_join(tbl_pm_ppp_substances, by = dplyr::join_by(substance == substance_name))
+
 
 #replace all NA values with 0
 tbl_pm_ppp_results$concentration <- base::replace(tbl_pm_ppp_results$concentration, base::is.na(tbl_pm_ppp_results$concentration), 0)
@@ -112,6 +117,8 @@ tbl_pm_ppp_results <- myfun.check_loq(tbl_pm_ppp_results)
 
 base::print("% Creating new tibble for PPP Pollenmonitoring prevalence information.")
 
+
+
 # tbl_pm_ppp_prevalence -------------------------------------------------------
 
 tbl_pm_ppp_prevalence <- myfun.create_tbl_prevalence(input_table = tbl_pm_ppp_results,
@@ -136,11 +143,81 @@ tbl_pm_ppp_prevalence_ch <- myfun.create_tbl_prevalence_ch(input_table = tbl_pm_
                                                            output_table = tbl_pm_ppp_prevalence_ch)
 
 
+
 # tbl_pm_ppp_percentage_ch -------------------------------------------------------
 
 tbl_pm_ppp_percentage_ch <- myfun.create_tbl_percentage(input_table = tbl_pm_ppp_prevalence_ch,
                                                      output_table = tbl_pm_ppp_percentage_ch)
 
+
+
+# create tbl_pm_ppp ------------------------------------------------------------
+
+base::print("% Creating new tibble tbl_pm_ppp.")
+
+
+
+tbl_pm_ppp <- dplyr::tibble(substance = NA,
+                                 class = NA,
+                                 location = NA,
+                                 year = NA,
+                                 lod = NA,
+                                 loq = NA,
+                                 n = NA,
+                                 prct_gt_loq = NA,
+                                 max_concentration = NA,
+                                 max_date = NA,
+                                 max_location = NA,
+                                 mean_concentration = NA)
+
+
+
+myvar.unique_substances <- unique(tbl_pm_ppp_results$substance)
+for (i in seq_along(myvar.unique_substances)) {
+  tbl_tmp_sub <- dplyr::filter(tbl_pm_ppp_results, substance == myvar.unique_substances[i])
+  myvar.unique_years <- unique(tbl_tmp_sub$year)
+  for (j in seq_along(myvar.unique_years)) {
+    tbl_tmp_year <- dplyr::filter(tbl_tmp_sub, year == myvar.unique_years[j])
+    myvar.unique_locations <- unique(tbl_tmp_year$location_short)
+    for (h in seq_along(myvar.unique_locations)) {
+      tbl_tmp_location <- dplyr::filter(tbl_tmp_year, location_short == myvar.unique_locations[h])
+      tbl_tmp_prevalence <- dplyr::filter(tbl_pm_ppp_prevalence, substance == myvar.unique_substances[i], year == myvar.unique_years[j], location_short == myvar.unique_locations[h])
+      myvar.max_conc <- max(tbl_tmp_location$concentration)
+      tbl_tmp_max_conc <- dplyr::filter(tbl_tmp_location, concentration == myvar.max_conc)
+      tbl_tmp_mean <- dplyr::filter(tbl_tmp_location, greater_than_loq == TRUE)
+      myvar.mean_conc <-  mean(tbl_tmp_mean$concentration)
+      
+      
+      tbl_pm_ppp[nrow(tbl_pm_ppp) + 1,] = list(myvar.unique_substances[i],
+                                               tbl_tmp_location$class[1],
+                                               myvar.unique_locations[h],
+                                               myvar.unique_years[j],
+                                               tbl_tmp_location$lod[1],
+                                               tbl_tmp_location$loq[1],
+                                               tbl_tmp_prevalence$n_samples[1],
+                                               tbl_tmp_prevalence$prct_gt_loq[1],
+                                               myvar.max_conc,
+                                               tbl_tmp_max_conc$sample_date[1],
+                                               tbl_tmp_max_conc$location_short[1],
+                                               myvar.mean_conc)
+      
+    }
+  }
+}
+
+
+rm(h, i, j)
+rm(myvar.unique_substances, 
+   tbl_tmp_sub,
+   myvar.unique_years,
+   tbl_tmp_year,
+   myvar.unique_locations,
+   tbl_tmp_location,
+   tbl_tmp_prevalence,
+   myvar.max_conc,
+   tbl_tmp_max_conc,
+   tbl_tmp_mean,
+   myvar.mean_conc)
 
 
 
@@ -149,10 +226,6 @@ myvar.pm_ppp_processed <- TRUE
 base::print("% Transformation of PPP Pollenmonitoring data completed")
 
 
-
-
-
-#tbl_pm_ppp_samples
 
 
 
