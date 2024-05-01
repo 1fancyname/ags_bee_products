@@ -19,7 +19,25 @@ myfun.assign_viridis_to_vec <- function(input_vec){
       tmp_vec <- purrr::set_names(tmp_vec, input_vec)
     }
   } else {
-    base::print("Error! There are too many colonies per location.")
+    base::print("Error! Vector is too long.")
+  }
+  
+  base::return(tmp_vec)
+}
+
+
+# assign viridis hex codes to vector <=5--------------------------------------
+
+myfun.assign_viridis_to_vec5 <- function(input_vec){
+  tmp_vec <- base::as.character(input_vec)
+  myvar.viridis_seq <- base::seq.int(from = 1, to = 5,along.with = input_vec)
+  if (base::length(input_vec) <= 5) {
+    for (i in seq_along(input_vec)) {
+      tmp_vec <- stringr::str_replace(tmp_vec, regex(paste0("^", tmp_vec[i], "$")), myvar.viridis_palette[myvar.viridis_seq[i]])
+      tmp_vec <- purrr::set_names(tmp_vec, input_vec)
+    }
+  } else {
+    base::print("Error! Vector is too long.")
   }
   
   base::return(tmp_vec)
@@ -1644,7 +1662,7 @@ myfun.plot_matrix_avg_comparison_a <- function(fun_year, fun_location){
 myfun.export_tbl_matrix_diff <- function(fun_year) {
   tmp_tbl <- dplyr::filter(tbl_matrix_diff, year == fun_year)
   readr::write_excel_csv(tmp_tbl ,
-    base::paste0( fun_year, "_matrix_diff.csv"),
+    base::paste0("./Export/AP22-25/", fun_year, "_matrix_diff.csv"),
     delim = ";"
   )
 }
@@ -2219,10 +2237,58 @@ myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_loc
 
 # experimental ------------------------------------------------------------
 
+myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_sub3, fun_sub4, fun_sub5){
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results,year == fun_year, substance == fun_sub1 | substance == fun_sub2 | substance == fun_sub3 | substance == fun_sub4 | substance == fun_sub5, greater_than_loq == TRUE)
+  
+  myvar.tmp_sub_col_viridis <- myfun.assign_viridis_to_vec5(base::sort(base::unique(tbl_tmp$substance)))
+  myvar.tmp_labels <- base::sort(base::unique(tbl_tmp$substance))
+  tbl_tmp %>%
+    ggplot(mapping = aes(x = substance, y = concentration, group = substance, fill = as.factor(substance))) + 
+    geom_boxplot() +
+    ggtitle(paste0(fun_year)) +
+    scale_fill_manual(values = myvar.tmp_sub_col_viridis,
+                      labels = myvar.tmp_labels) +
+    theme(
+      axis.text.x = element_text(
+        hjust = 1,
+        colour = "black",
+        size = 14
+      ),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.title.y = element_text(size = 16),
+      panel.background = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.title = element_text(size = 20)
+    ) +
+    xlab("") +
+    ylab("Conc. [\u00b5g/kg]") +
+    labs(fill = "") +
+    scale_y_continuous(expand = expansion(mult = c(0, .1)))
+    ggsave(paste0("substance_comparison_",fun_year,".jpg"),
+         height = 1080,
+         width = 2800,
+         units = "px",
+         path = paste0("./Grafik/PPP_Pollenmonitoring/Substance_Comparison/", fun_year, "/"))
+}
 
 
 
 
+
+
+x %>%
+  ggplot() +
+  geom_point(mapping = aes(x = week, y = concentration))
+
+
+
+dplyr::filter(tbl_pm_ppp_results, year == 2024, substance == "Azoxystrobin" |  substance == "Boscalid" | substance == "Fludioxonil" | substance == "Flufenacet" | substance == "Indoxacarb", greater_than_loq == TRUE) %>%
+  ggplot() +
+  geom_histogram(mapping = aes(x = concentration), binwidth = 0.5)
+ggsave(paste0("histogram2.jpg"),
+       height = 1080,
+       width = 2800,
+       units = "px")
 
 
 # plot trend for a substance over a year ----------------------------------
