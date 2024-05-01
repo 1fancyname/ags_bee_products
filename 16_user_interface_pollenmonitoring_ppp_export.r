@@ -9,9 +9,10 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
   base::print("To stop the user interface, press 'esc'. To exit PPP Pollenmonitoring export, type 'exit'.")
   base::print("")
   base::print("")
-  base::print("Would you like to create charts with the imported data?")
+  base::print("Would you like to create charts, or export files generated from the imported data?")
   base::print("Type ")
   base::print("1 to create charts")
+  base::print("2 to export data")
   myvar.usr.chart_export <- base::as.character(base::readline("Enter here:")) 
   
   switch(myvar.usr.chart_export,
@@ -153,14 +154,47 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
            
            switch(myvar.usr.table_type,
                   "tbl1" = {
-                    
+                    #results export
+                    tbl_pm_ppp_results_export <- dplyr::select(tbl_pm_ppp_results, 
+                                                       fk_id_p,
+                                                       sample_date,
+                                                       location_long,
+                                                       year,
+                                                       substance,
+                                                       concentration) %>%
+                    pivot_wider(names_from = substance, values_from = concentration)
+                  
+                  
+                  readr::write_excel_csv(
+                    tbl_pm_ppp_results_export,
+                    base::paste0("./Export/PPP_Pollenmonitoring/tbl_results_pm_ppp.csv"),
+                    delim = ";"
+                  )
+                  rm(tbl_pm_ppp_results_export)
+                  base::print("DONE")
+                  base::print(base::paste0("The file ist stored in ./Export/PPP_Pollenmonitoring/"))
+                  
                   },
                   "tbl2" = {
-                    
-                  
+                    #tbl_pm_ppp
+                    readr::write_excel_csv(
+                      tbl_pm_ppp,
+                      base::paste0("./Export/PPP_Pollenmonitoring/tbl_pm_ppp.csv"),
+                      delim = ";"
+                    )
+                    base::print("DONE")
+                    base::print(base::paste0("The file ist stored in ./Export/PPP_Pollenmonitoring/"))
                     
                   },
                   "tbl3" = {
+                    #tbl_pm_ppp_ch
+                    readr::write_excel_csv(
+                      tbl_pm_ppp_ch,
+                      base::paste0("./Export/PPP_Pollenmonitoring/tbl_pm_ppp_ch.csv"),
+                      delim = ";"
+                    )
+                    base::print("DONE")
+                    base::print(base::paste0("The file ist stored in ./Export/PPP_Pollenmonitoring/"))
                     
                   },
                   "tbl4" = {
