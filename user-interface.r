@@ -8,13 +8,13 @@ myvar.user_interface_state <- "on"
 
 while (myvar.user_interface_state != "off") {
   base::print("Wellcome to the R script of the bee products group.")
-  base::print("Version 1.0.1")
+  base::print("Version 1.2")
   base::print("To stop the user interface and exit the program, type 'exit' in the menu or press esc.")
   base::print("")
   base::print("")
   base::print("Current status:")
-  base::print(paste0("PPP Wachsmonitoring data is loaded:         ", myvar.wm_loaded))
-  base::print(paste0("PPP Wachsmonitoring data is processed:      ", myvar.wm_processed))
+  base::print(paste0("PPP Wachsmonitoring data is loaded:     ", myvar.wm_loaded))
+  base::print(paste0("PPP Wachsmonitoring data is processed:  ", myvar.wm_processed))
   base::print(paste0("Project AP22-25 data is loaded:         ", myvar.ap22_25_loaded))
   base::print(paste0("Project AP22-25 data is processed:      ", myvar.ap22_25_processed))
   base::print(paste0("PPP Pollenmonitoring data is loaded:    ", myvar.pm_ppp_loaded))
