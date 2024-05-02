@@ -145,6 +145,59 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     base::print("%")
                     base::print("%")
                     base::print("%")
+                  },
+                  "ch6" = {
+                    base::print("For which year do you want to create a plot? Example: 2024")
+                    myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
+                    
+                    
+                    base::print("Choose which substances you want to compare. Example: Azoxystrobin")
+                    base::print("INFO: This input is case sensitive. Azoxystrobin is not the same as azoxystrobin.")
+                    base::print("Leave prompt empty and hit enter if the desired substances have been chosen.")
+                    myvar.usr_substance1  <- base::as.character(base::readline("Enter first substance here:"))
+                    myvar.usr_substance2 <- base::as.character(base::readline("Enter first substance here:"))
+                    myvar.usr_substance3  <- base::as.character(base::readline("Enter third substance here:"))
+                    myvar.usr_substance4  <- base::as.character(base::readline("Enter fourth substance here:"))
+                    myvar.usr_substance5  <- base::as.character(base::readline("Enter fifth substance here:"))
+
+                    
+                    myfun.plot_pm_ppp_box_substance(myvar.usr_results_year,
+                                                    fun_sub1 = myvar.usr_substance1,
+                                                    fun_sub2 = myvar.usr_substance2,
+                                                    fun_sub3 = myvar.usr_substance3,
+                                                    fun_sub4 = myvar.usr_substance4,
+                                                    fun_sub5 = myvar.usr_substance5)
+                    
+                    base::print("DONE")
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Substance_Comparison/", myvar.usr_year))
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                  },
+                  "ch7" = {
+                    base::print("For which year do you want to create a plot? Example: 2024")
+                    myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
+                    
+                    myfun.plot_pm_ppp_substance_trend_ch(myvar.usr_results_year)
+                    base::print("DONE")
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Trent/", myvar.usr_year))
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                  },
+                  "ch8" = {
+                    base::print("For which year do you want to create a plot? Example: 2024")
+                    myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
+                    
+                    myfun.plot_pm_ppp_trend_ch(myvar.usr_results_year)
+                    base::print("DONE")
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Trent/", myvar.usr_year))
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
                   }
            )
          },
