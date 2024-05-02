@@ -2121,7 +2121,7 @@ myfun.pm_ppp_plot_prevalence_ch <- function(fun_year){
 
 
 myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5, fun_start_week, fun_end_week){
-  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5, week >= fun_start_week, week <= fun_end_week)
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5, week >= fun_start_week, week <= fun_end_week, greater_than_loq == TRUE)
   myvar.tmp_substances <- base::unique(tbl_tmp$substance)
   for (i in base::seq_along(myvar.tmp_substances)) {
     tbl_tmp_cur_sub <- dplyr::filter(tbl_tmp, substance == myvar.tmp_substances[i])
@@ -2179,7 +2179,7 @@ myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_lo
 
 
 myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
-  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5, greater_than_loq == TRUE)
   myvar.tmp_substances <- base::unique(tbl_tmp$substance)
   for (i in base::seq_along(myvar.tmp_substances)) {
     tbl_tmp_cur_sub <- dplyr::filter(tbl_tmp, substance == myvar.tmp_substances[i])
@@ -2234,8 +2234,8 @@ myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_loc
 
 
 
+# plot boxplot for selected substances -------------------------------------
 
-# experimental ------------------------------------------------------------
 
 myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_sub3, fun_sub4, fun_sub5){
   tbl_tmp <- dplyr::filter(tbl_pm_ppp_results,year == fun_year, substance == fun_sub1 | substance == fun_sub2 | substance == fun_sub3 | substance == fun_sub4 | substance == fun_sub5, greater_than_loq == TRUE)
@@ -2244,15 +2244,17 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
   myvar.tmp_labels <- base::sort(base::unique(tbl_tmp$substance))
   tbl_tmp %>%
     ggplot(mapping = aes(x = substance, y = concentration, group = substance, fill = as.factor(substance))) + 
+    stat_boxplot(geom = "errorbar", width = 0.4) +
     geom_boxplot() +
     ggtitle(paste0(fun_year)) +
     scale_fill_manual(values = myvar.tmp_sub_col_viridis,
                       labels = myvar.tmp_labels) +
     theme(
       axis.text.x = element_text(
+        angle = 20,
         hjust = 1,
         colour = "black",
-        size = 14
+        size = 13
       ),
       axis.text.y = element_text(size = 14, colour = "black"),
       axis.title.y = element_text(size = 16),
@@ -2263,8 +2265,8 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
     xlab("") +
     ylab("Conc. [\u00b5g/kg]") +
     labs(fill = "") +
-    scale_y_continuous(expand = expansion(mult = c(0, .1)))
-    ggsave(paste0("substance_comparison_",fun_year,".jpg"),
+    scale_y_log10(expand = expansion(mult = c(0, .1)))
+  ggsave(paste0("substance_comparison_",fun_year,".jpg"),
          height = 1080,
          width = 2800,
          units = "px",
@@ -2274,52 +2276,116 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
 
 
 
-
-
-x %>%
-  ggplot() +
-  geom_point(mapping = aes(x = week, y = concentration))
-
-
-
-dplyr::filter(tbl_pm_ppp_results, year == 2024, substance == "Azoxystrobin" |  substance == "Boscalid" | substance == "Fludioxonil" | substance == "Flufenacet" | substance == "Indoxacarb", greater_than_loq == TRUE) %>%
-  ggplot() +
-  geom_histogram(mapping = aes(x = concentration), binwidth = 0.5)
-ggsave(paste0("histogram2.jpg"),
-       height = 1080,
-       width = 2800,
-       units = "px")
-
-
-# plot trend for a substance over a year ----------------------------------
-
-
-#dplyr::filter(tbl_pm_ppp_results, year == 2027, substance == "Mandipropamid") %>%
-#ggplot(mapping = aes(x = week, y = concentration)) +
-#geom_point() +
-#geom_smooth(method = "loess", 
-#            se = TRUE,
-#            span = 0.3)
-
-
-#dplyr::filter(tbl_pm_ppp_results, substance == "Azoxystrobin") %>%
-#  ggplot(mapping = aes(x = sample_date, y = concentration)) +
-#  geom_point() +
-#  geom_smooth()
-
-
-
-#dplyr::filter(tbl_pm_ppp_results, substance == "Azoxystrobin") %>%
-#  ggplot(mapping = aes(x = year, y = concentration)) +
-#  geom_point() +
-#  geom_smooth(method = "gam", 
-#              se = TRUE,
-#              span = 0.5)
+# plot point & smooth for each substance ch -------------------------------
 
 
 
 
+myfun.plot_pm_ppp_substance_trend_ch <- function(fun_year){
+  tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, greater_than_loq == TRUE)
+  myvar.tmp1_sub_unique <- base::unique(tmp_tbl$substance)
+  for (i in base::seq_along(myvar.tmp1_sub_unique)) {
+    tmp_tbl_sub <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, greater_than_loq == TRUE, substance == myvar.tmp1_sub_unique[i])
+    
+    myvar.tmp_min_week <- base::min(tmp_tbl_sub$week)
+    myvar.tmp_max_week <- base::max(tmp_tbl_sub$week)
+    myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
+    myvar.tmp_week_labels <- myvar.tmp_week_breaks
+    
+    ggplot(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration)) +
+      geom_point(position = "jitter") +
+      geom_smooth(colour = "#35b779", 
+                  formula = y ~ x,
+                  method = "loess", 
+                  se = FALSE,
+                  span = 0.3) +
+      ggtitle(paste0(myvar.tmp1_sub_unique[i])) +
+      theme(
+        axis.text.x = element_text(
+          angle = 33,
+          hjust = 1,
+          colour = "black",
+          size = 11
+        ),
+        axis.title.x = element_text(size = 16),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title.y = element_text(size = 16),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(size = 20),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13)
+      ) +
+      xlab("Calendar Week") +
+      ylab("Conc. [\u00b5g/kg]") +
+      scale_y_log10(expand = expansion(mult = c(0, .1))) +
+      scale_x_continuous(breaks = myvar.tmp_week_breaks,
+                         labels = myvar.tmp_week_labels)
+    ggsave(paste0(myvar.tmp1_sub_unique[i],".jpg"),
+           height = 1080,
+           width = 2300,
+           units = "px",
+           path = base::paste0("./Grafik/PPP_Pollenmonitoring/Trend/", fun_year,"/"))
+    
+  }
+}
 
-#dplyr::filter(tbl_pm_ppp_results, year == 2024, substance == "Mandipropamid") %>%
-#  ggplot(mapping = aes(location_short)) +
-#  geom_density()
+
+
+# plot point & smooth for all substances ch -------------------------------
+
+
+myfun.plot_pm_ppp_trend_ch <- function(fun_year){
+  tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, greater_than_loq == TRUE)
+  
+  myvar.tmp_min_week <- base::min(tmp_tbl$week)
+  myvar.tmp_max_week <- base::max(tmp_tbl$week)
+  myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
+  myvar.tmp_week_labels <- myvar.tmp_week_breaks
+  
+  ggplot(data = tmp_tbl, mapping = aes(x = week,y = concentration)) +
+    geom_point(position = "jitter") +
+    geom_smooth(colour = "#35b779", 
+                formula = y ~ x,
+                method = "loess", 
+                se = FALSE,
+                span = 0.3) +
+    ggtitle(paste0(fun_year)) +
+    theme(
+      axis.text.x = element_text(
+        angle = 33,
+        hjust = 1,
+        colour = "black",
+        size = 11
+      ),
+      axis.title.x = element_text(size = 16),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.title.y = element_text(size = 16),
+      panel.background = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.title = element_text(size = 20),
+      legend.text = element_text(size = 12),
+      legend.title = element_text(size = 13)
+    ) +
+    xlab("Calendar Week") +
+    ylab("Conc. [\u00b5g/kg]") +
+    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    scale_x_continuous(breaks = myvar.tmp_week_breaks,
+                       labels = myvar.tmp_week_labels)
+  ggsave(paste0(fun_year,".jpg"),
+         height = 1080,
+         width = 2300,
+         units = "px",
+         path = base::paste0("./Grafik/PPP_Pollenmonitoring/Trend/", fun_year,"/"))
+  
+  
+}
+
+
+
+
+# experimental ------------------------------------------------------------
+
+
+
+
