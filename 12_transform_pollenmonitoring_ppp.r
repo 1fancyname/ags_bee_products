@@ -5,6 +5,12 @@
 # change datatypes --------------------------------------------------------
 
 
+# tbl_pm_ppp_samples ------------------------------------------------------
+
+tbl_pm_ppp_samples$sample_date <- base::as.Date(tbl_pm_ppp_samples$sample_date, format = "%d.%m.%Y")
+
+
+
 #tbl_pm_ppp_colonies
 tbl_pm_ppp_colonies$ags_col_number <- base::as.character(tbl_pm_ppp_colonies$ags_col_number)
 
@@ -164,10 +170,10 @@ tbl_pm_ppp <- dplyr::tibble(substance = NA,
                                  lod = NA,
                                  loq = NA,
                                  n = NA,
+                                 prct_gt_lod_lt_loq = NA,
                                  prct_gt_loq = NA,
                                  max_concentration = NA,
                                  max_date = NA,
-                                 max_location = NA,
                                  mean_concentration = NA)
 
 
@@ -195,10 +201,10 @@ for (i in seq_along(myvar.unique_substances)) {
                                                tbl_tmp_location$lod[1],
                                                tbl_tmp_location$loq[1],
                                                tbl_tmp_prevalence$n_samples[1],
+                                               tbl_tmp_prevalence$prct_gt_lod_lt_loq[1],
                                                tbl_tmp_prevalence$prct_gt_loq[1],
                                                myvar.max_conc,
                                                tbl_tmp_max_conc$sample_date[1],
-                                               tbl_tmp_max_conc$location_short[1],
                                                myvar.mean_conc)
       
     }
@@ -218,6 +224,95 @@ rm(myvar.unique_substances,
    tbl_tmp_max_conc,
    tbl_tmp_mean,
    myvar.mean_conc)
+
+
+tbl_pm_ppp <- tbl_pm_ppp[-1,]
+
+
+
+
+
+
+# tbl_pm_ppp_ch --------------------------------------------------------------
+
+base::print("% Creating new tibble tbl_pm_ppp_ch.")
+
+tbl_pm_ppp_ch <- dplyr::tibble(substance = NA,
+                            class = NA,
+                            year = NA,
+                            lod = NA,
+                            loq = NA,
+                            n = NA,
+                            prct_gt_lod_lt_loq = NA,
+                            prct_gt_loq = NA,
+                            max_concentration = NA,
+                            max_greater_lod = NA,
+                            max_greater_loq = NA,
+                            max_date = NA,
+                            max_location = NA,
+                            min_concentration = NA,
+                            min_greater_lod = NA,
+                            min_greater_loq = NA,
+                            mean_concentration = NA,
+                            median_concentration = NA,
+                            sd_concentration = NA)
+
+
+myvar.unique_substances <- unique(tbl_pm_ppp_results$substance)
+for (i in seq_along(myvar.unique_substances)) {
+  tbl_tmp_sub <- dplyr::filter(tbl_pm_ppp_results, substance == myvar.unique_substances[i])
+  myvar.unique_years <- unique(tbl_tmp_sub$year)
+  for (j in seq_along(myvar.unique_years)) {
+    tbl_tmp_year <- dplyr::filter(tbl_tmp_sub, year == myvar.unique_years[j])
+    tbl_tmp_year_loq <- dplyr::filter(tbl_tmp_year, greater_than_loq == TRUE)
+    tbl_tmp_prevalence_ch <- dplyr::filter(tbl_pm_ppp_prevalence_ch, year == myvar.unique_years[j], substance == myvar.unique_substances[i])
+    myvar.max_conc <- max(tbl_tmp_year$concentration)
+    tbl_tmp_max_conc <- dplyr::filter(tbl_tmp_year, concentration == myvar.max_conc)
+    tbl_tmp_non_zero <- dplyr::filter(tbl_tmp_year, concentration != 0)
+    myvar.min_conc <- min(tbl_tmp_non_zero$concentration)
+    tbl_tmp_min_conc <- dplyr::filter(tbl_tmp_year, concentration == myvar.min_conc)
+    myvar.mean_conc <- mean(tbl_tmp_year_loq$concentration)
+    myvar.median_conc <- median(tbl_tmp_year_loq$concentration)
+    myvar.sd_conc <- sd(tbl_tmp_year_loq$concentration)
+    
+    tbl_pm_ppp_ch[nrow(tbl_pm_ppp_ch) + 1,] = list(myvar.unique_substances[i],
+                                                   tbl_tmp_year$class[1],
+                                                   myvar.unique_years[j],
+                                                   tbl_tmp_year$lod[1],
+                                                   tbl_tmp_year$loq[1],
+                                                   tbl_tmp_prevalence_ch$n_samples[1],
+                                                   tbl_tmp_prevalence_ch$prct_gt_lod_lt_loq[1],
+                                                   tbl_tmp_prevalence_ch$prct_gt_loq[1],
+                                                   myvar.max_conc,
+                                                   tbl_tmp_max_conc$greater_than_lod[1],
+                                                   tbl_tmp_max_conc$greater_than_lod[1],
+                                                   tbl_tmp_max_conc$sample_date[1],
+                                                   tbl_tmp_max_conc$location_short[1],
+                                                   myvar.min_conc,
+                                                   tbl_tmp_min_conc$greater_than_lod[1],
+                                                   tbl_tmp_min_conc$greater_than_lod[1],
+                                                   myvar.mean_conc,
+                                                   myvar.median_conc,
+                                                   myvar.sd_conc)
+    
+  }
+}
+rm(i, j)
+rm(myvar.unique_substances,
+   tbl_tmp_sub,
+   myvar.unique_years,
+   tbl_tmp_year,
+   tbl_tmp_year_loq,
+   tbl_tmp_prevalence_ch,
+   myvar.max_conc,
+   tbl_tmp_max_conc,
+   myvar.min_conc,
+   myvar.mean_conc,
+   myvar.median_conc,
+   myvar.sd_conc)
+
+
+tbl_pm_ppp_ch <- tbl_pm_ppp_ch[-1,]
 
 
 
