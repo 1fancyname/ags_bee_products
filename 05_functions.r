@@ -1900,7 +1900,7 @@ myfun.plot_pm_ppp_substance_gt_lod <- function(fun_year, fun_location){
     }
     ggplot() +
       geom_col(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration), fill = "#35b779") +
-      ggtitle(paste0(myvar.tmp1_sub_unique[i], " ", fun_location)) +
+      ggtitle(paste0(myvar.tmp1_sub_unique[i])) +
       theme(
         axis.text.x = element_text(
           angle = 33,
@@ -1969,7 +1969,7 @@ myfun.plot_pm_ppp_substance_gt_loq <- function(fun_year, fun_location){
     
     ggplot() +
       geom_col(data = tmp_tbl_sub, mapping = aes(x = week,y = concentration), fill = "#35b779") +
-      ggtitle(paste0(myvar.tmp1_sub_unique[i], " ", fun_location)) +
+      ggtitle(paste0(myvar.tmp1_sub_unique[i])) +
       theme(
         axis.text.x = element_text(
           angle = 33,
@@ -2234,7 +2234,7 @@ myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_loc
 
 
 
-# plot boxplot for selected substances -------------------------------------
+# plot pm_ppp boxplot for selected substances -------------------------------------
 
 
 myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_sub3, fun_sub4, fun_sub5){
@@ -2263,7 +2263,7 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
       plot.title = element_text(size = 20)
     ) +
     xlab("") +
-    ylab("Conc. [\u00b5g/kg]") +
+    ylab("log10 Conc. [\u00b5g/kg]") +
     labs(fill = "") +
     scale_y_log10(expand = expansion(mult = c(0, .1)))
   ggsave(paste0("substance_comparison_",fun_year,".jpg"),
@@ -2276,9 +2276,7 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
 
 
 
-# plot point & smooth for each substance ch -------------------------------
-
-
+# plot pm_ppp point & smooth for each substance ch -------------------------------
 
 
 myfun.plot_pm_ppp_substance_trend_ch <- function(fun_year){
@@ -2332,12 +2330,11 @@ myfun.plot_pm_ppp_substance_trend_ch <- function(fun_year){
 
 
 
-# plot point & smooth for all substances ch -------------------------------
+# plot pm_ppp point & smooth for all substances ch -------------------------------
 
 
 myfun.plot_pm_ppp_trend_ch <- function(fun_year){
   tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, greater_than_loq == TRUE)
-  
   myvar.tmp_min_week <- base::min(tmp_tbl$week)
   myvar.tmp_max_week <- base::max(tmp_tbl$week)
   myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
@@ -2378,6 +2375,300 @@ myfun.plot_pm_ppp_trend_ch <- function(fun_year){
          units = "px",
          path = base::paste0("./Grafik/PPP_Pollenmonitoring/Trend/", fun_year,"/"))
   
+}
+
+
+
+
+# plot pm_ppp point & smooth for selected substances ch -------------------------------
+
+
+myfun.plot_pm_ppp_trend_ch <- function(fun_year, fun_sub1, fun_sub2, fun_sub3){
+  tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, substance == fun_sub1 | substance == fun_sub2 | substance == fun_sub3, greater_than_loq == TRUE)
+  myvar.tmp_min_week <- base::min(tmp_tbl$week)
+  myvar.tmp_max_week <- base::max(tmp_tbl$week)
+  myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
+  myvar.tmp_week_labels <- myvar.tmp_week_breaks
+  myvar.tmp_sub_col_viridis <- myfun.assign_viridis_to_vec(base::sort(base::unique(tmp_tbl$substance)))
+  myvar.tmp_labels <- base::sort(base::unique(tmp_tbl$substance))
+  
+  ggplot(data = tmp_tbl, mapping = aes(x = week,y = concentration, colour = substance)) +
+    geom_point(position = "jitter") +
+    geom_smooth(formula = y ~ x,
+                method = "loess", 
+                se = FALSE,
+                span = 0.3) +
+    ggtitle(paste0(fun_year)) +
+    scale_colour_manual(values = myvar.tmp_sub_col_viridis,
+                      labels = myvar.tmp_labels) +
+    theme(
+      axis.text.x = element_text(
+        angle = 33,
+        hjust = 1,
+        colour = "black",
+        size = 11
+      ),
+      axis.title.x = element_text(size = 16),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.title.y = element_text(size = 16),
+      panel.background = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.title = element_text(size = 20),
+      legend.text = element_text(size = 12),
+      legend.title = element_text(size = 13)
+    ) +
+    xlab("Calendar Week") +
+    ylab("Conc. [\u00b5g/kg]") +
+    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    scale_x_continuous(breaks = myvar.tmp_week_breaks,
+                       labels = myvar.tmp_week_labels)
+  ggsave(paste0(fun_year,".jpg"),
+         height = 2000,
+         width = 4000,
+         units = "px",
+         path = base::paste0("./Grafik/PPP_Pollenmonitoring/Trend_Comparison/", fun_year,"/"))
+  
+}
+
+
+
+
+# plot ap22-25 pollen point & smooth for all substances ch -------------------------------
+
+
+myfun.plot_trend_ch_p <- function(fun_year){
+  tmp_tbl <- dplyr::filter(tbl_results_p, year == fun_year, greater_than_loq == TRUE)
+  myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date_start)
+  myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date_start), format = "%d.%m.")
+  
+  ggplot(data = tmp_tbl, mapping = aes(x = sample_date_start,y = concentration)) +
+    geom_point(position = "jitter") +
+    geom_smooth(colour = "#35b779", 
+                formula = y ~ x,
+                method = "loess", 
+                se = FALSE,
+                span = 0.3) +
+    ggtitle(paste0(fun_year)) +
+    theme(
+      axis.text.x = element_text(
+        angle = 33,
+        hjust = 1,
+        colour = "black",
+        size = 11
+      ),
+      axis.title.x = element_text(size = 16),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.title.y = element_text(size = 16),
+      panel.background = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.title = element_text(size = 20),
+      legend.text = element_text(size = 12),
+      legend.title = element_text(size = 13)
+    ) +
+    xlab("Sample Date") +
+    ylab("log10 Conc. [\u00b5g/kg]") +
+    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    scale_x_date(breaks = myvar.tmp_date_breaks,
+                       labels = myvar.tmp_dates_labels)
+  ggsave(paste0(fun_year,".jpg"),
+         height = 1080,
+         width = 2300,
+         units = "px",
+         path = base::paste0("./Grafik/AP22-25/Pollen/Trend/", fun_year,"/"))
+  
+}
+
+
+
+
+# plot ap22-25 beebread point & smooth for all substances ch -------------------------------
+
+
+myfun.plot_trend_ch_bb <- function(fun_year){
+  tmp_tbl <- dplyr::filter(tbl_results_bb, year == fun_year, greater_than_loq == TRUE)
+  myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date)
+  myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date), format = "%d.%m.")
+  
+  ggplot(data = tmp_tbl, mapping = aes(x = sample_date,y = concentration)) +
+    geom_point(position = "jitter") +
+    geom_smooth(colour = "#35b779", 
+                formula = y ~ x,
+                method = "loess", 
+                se = FALSE,
+                span = 0.3) +
+    ggtitle(paste0(fun_year)) +
+    theme(
+      axis.text.x = element_text(
+        angle = 33,
+        hjust = 1,
+        colour = "black",
+        size = 11
+      ),
+      axis.title.x = element_text(size = 16),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.title.y = element_text(size = 16),
+      panel.background = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.title = element_text(size = 20),
+      legend.text = element_text(size = 12),
+      legend.title = element_text(size = 13)
+    ) +
+    xlab("Sample Date") +
+    ylab("log10 Conc. [\u00b5g/kg]") +
+    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    scale_x_date(breaks = myvar.tmp_date_breaks,
+                 labels = myvar.tmp_dates_labels)
+  ggsave(paste0(fun_year,".jpg"),
+         height = 1080,
+         width = 2300,
+         units = "px",
+         path = base::paste0("./Grafik/AP22-25/Beebread/Trend/", fun_year,"/"))
+  
+}
+
+
+
+
+
+# plot ap22-25 wax point & smooth for all substances ch -------------------------------
+
+
+myfun.plot_trend_ch_w <- function(fun_year){
+  tmp_tbl <- dplyr::filter(tbl_results_w, year == fun_year, greater_than_loq == TRUE)
+  myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date)
+  myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date), format = "%d.%m.")
+  
+  ggplot(data = tmp_tbl, mapping = aes(x = sample_date,y = concentration)) +
+    geom_point(position = "jitter") +
+    geom_smooth(colour = "#35b779", 
+                formula = y ~ x,
+                method = "loess", 
+                se = FALSE,
+                span = 0.3) +
+    ggtitle(paste0(fun_year)) +
+    theme(
+      axis.text.x = element_text(
+        angle = 33,
+        hjust = 1,
+        colour = "black",
+        size = 11
+      ),
+      axis.title.x = element_text(size = 16),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.title.y = element_text(size = 16),
+      panel.background = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.title = element_text(size = 20),
+      legend.text = element_text(size = 12),
+      legend.title = element_text(size = 13)
+    ) +
+    xlab("Sample Date") +
+    ylab("log10 Conc. [\u00b5g/kg]") +
+    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    scale_x_date(breaks = myvar.tmp_date_breaks,
+                 labels = myvar.tmp_dates_labels)
+  ggsave(paste0(fun_year,".jpg"),
+         height = 1080,
+         width = 2300,
+         units = "px",
+         path = base::paste0("./Grafik/AP22-25/Wax/Trend/", fun_year,"/"))
+  
+}
+
+
+
+
+
+# plot ap22-25 apistrip point & smooth for all substances ch -------------------------------
+
+
+myfun.plot_trend_ch_a <- function(fun_year){
+  tmp_tbl <- dplyr::filter(tbl_results_a, year == fun_year, greater_than_loq == TRUE)
+  myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date)
+  myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date), format = "%d.%m.")
+  
+  ggplot(data = tmp_tbl, mapping = aes(x = sample_date,y = concentration)) +
+    geom_point(position = "jitter") +
+    geom_smooth(colour = "#35b779", 
+                formula = y ~ x,
+                method = "loess", 
+                se = FALSE,
+                span = 0.3) +
+    ggtitle(paste0(fun_year)) +
+    theme(
+      axis.text.x = element_text(
+        angle = 33,
+        hjust = 1,
+        colour = "black",
+        size = 11
+      ),
+      axis.title.x = element_text(size = 16),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.title.y = element_text(size = 16),
+      panel.background = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.title = element_text(size = 20),
+      legend.text = element_text(size = 12),
+      legend.title = element_text(size = 13)
+    ) +
+    xlab("Sample Date") +
+    ylab("log10 Conc. [\u00b5g/kg]") +
+    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    scale_x_date(breaks = myvar.tmp_date_breaks,
+                 labels = myvar.tmp_dates_labels)
+  ggsave(paste0(fun_year,".jpg"),
+         height = 1080,
+         width = 2300,
+         units = "px",
+         path = base::paste0("./Grafik/AP22-25/Apistrip_L2/Trend/", fun_year,"/"))
+  
+}
+
+
+
+
+# plot ap22-25 apistrip point & smooth for all substances ch -------------------------------
+
+
+myfun.plot_trend_ch_a_sp <- function(fun_year){
+  tmp_tbl <- dplyr::filter(tbl_results_a_sp, year == fun_year, greater_than_loq == TRUE)
+  myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date)
+  myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date), format = "%d.%m.")
+  
+  ggplot(data = tmp_tbl, mapping = aes(x = sample_date,y = concentration)) +
+    geom_point(position = "jitter") +
+    geom_smooth(colour = "#35b779", 
+                formula = y ~ x,
+                method = "loess", 
+                se = FALSE,
+                span = 0.3) +
+    ggtitle(paste0(fun_year)) +
+    theme(
+      axis.text.x = element_text(
+        angle = 33,
+        hjust = 1,
+        colour = "black",
+        size = 11
+      ),
+      axis.title.x = element_text(size = 16),
+      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.title.y = element_text(size = 16),
+      panel.background = element_blank(),
+      axis.line = element_line(colour = "black"),
+      plot.title = element_text(size = 20),
+      legend.text = element_text(size = 12),
+      legend.title = element_text(size = 13)
+    ) +
+    xlab("Sample Date") +
+    ylab("log10 Conc. [\u00b5g/kg]") +
+    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    scale_x_date(breaks = myvar.tmp_date_breaks,
+                 labels = myvar.tmp_dates_labels)
+  ggsave(paste0(fun_year,".jpg"),
+         height = 1080,
+         width = 2300,
+         units = "px",
+         path = base::paste0("./Grafik/AP22-25/Apistrip_L1/Trend/", fun_year,"/"))
   
 }
 
