@@ -169,7 +169,7 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                                                     fun_sub5 = myvar.usr_substance5)
                     
                     base::print("DONE")
-                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Substance_Comparison/", myvar.usr_year))
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Substance_Comparison/", myvar.usr_results_year))
                     base::print("%")
                     base::print("%")
                     base::print("%")
