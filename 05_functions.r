@@ -54,13 +54,19 @@ myfun.create_label_vector <- function(input_vec){
 
 
 
-
-# create breaks for log10 scale -------------------------------------------
-
-breaks_log10 <- function(x) {
-  low <- floor(log10(min(x)))
-  high <- ceiling(log10(max(x)))
+# create boxplot stats (log10) 
+myfun.bxstat = function(x) {
+  bxp = log10(boxplot.stats(10^x)[["stats"]])
+  names(bxp) = c("ymin","lower", "middle","upper","ymax")
+  return(bxp)
 }
+
+
+# create outliers stats (log10)
+myfun.outstat = function(x) {
+  data.frame(y = log10(boxplot.stats(10^x)[["out"]]))
+}
+
 
 # check if concentration is greater than LOD ------------------------------
 
@@ -2276,7 +2282,6 @@ myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_loc
 
 
 
-
 # plot pm_ppp boxplot for selected substances -------------------------------------
 
 
@@ -2286,10 +2291,10 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
   myvar.tmp_sub_col_viridis <- myfun.assign_viridis_to_vec5(base::sort(base::unique(tbl_tmp$substance)))
   myvar.tmp_labels <- base::sort(base::unique(tbl_tmp$substance))
   tbl_tmp %>%
-    ggplot(mapping = aes(x = substance, y = concentration, group = substance, fill = as.factor(substance)), log10 = "y") + 
-    stat_summary(fun.data = mybxp, geom = "errorbar", width = 0.4) +
-    stat_summary(fun.data = mybxp, geom = "boxplot") +
-    stat_summary(fun.data = myout, geom = "point") +
+    ggplot(mapping = aes(x = substance, y = concentration, group = substance, fill = as.factor(substance))) + 
+    stat_summary(fun.data = myfun.bxstat, geom = "errorbar", width = 0.4) +
+    stat_summary(fun.data = myfun.bxstat, geom = "boxplot") +
+    stat_summary(fun.data = myfun.outstat, geom = "point") +
     ggtitle(glue("{fun_year}")) +
     scale_fill_manual(values = myvar.tmp_sub_col_viridis,
                       labels = myvar.tmp_labels) +
@@ -2309,7 +2314,7 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
     xlab("") +
     ylab("log10 Conc. [\u00b5g/kg]") +
     labs(fill = "") +
-    scale_y_log10() 
+    scale_y_log10(expand = expansion(mult = c(0, .1))) 
   ggsave(glue("substance_comparison_{fun_year}.jpg"),
          height = 1080,
          width = 2800,
