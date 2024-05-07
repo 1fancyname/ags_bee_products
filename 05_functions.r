@@ -54,6 +54,14 @@ myfun.create_label_vector <- function(input_vec){
 
 
 
+
+# create breaks for log10 scale -------------------------------------------
+
+breaks_log10 <- function(x) {
+  low <- floor(log10(min(x)))
+  high <- ceiling(log10(max(x)))
+}
+
 # check if concentration is greater than LOD ------------------------------
 
 myfun.check_lod <- function(input_table){
@@ -2181,7 +2189,7 @@ myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_lo
 
 myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5){
   
-  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == 2024, location_short == "BC2" | location_short == "CL" | location_short == "SO" | location_short == "WA" | location_short == "RE")
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5)
   myvar.tmp_substances <- base::unique(tbl_tmp$substance)
   myvar.tmp_min_week <- base::min(tbl_tmp$week)
   myvar.tmp_max_week <- base::max(tbl_tmp$week)
@@ -2278,10 +2286,11 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
   myvar.tmp_sub_col_viridis <- myfun.assign_viridis_to_vec5(base::sort(base::unique(tbl_tmp$substance)))
   myvar.tmp_labels <- base::sort(base::unique(tbl_tmp$substance))
   tbl_tmp %>%
-    ggplot(mapping = aes(x = substance, y = concentration, group = substance, fill = as.factor(substance))) + 
-    stat_boxplot(geom = "errorbar", width = 0.4) +
-    geom_boxplot() +
-    ggtitle(paste0(fun_year)) +
+    ggplot(mapping = aes(x = substance, y = concentration, group = substance, fill = as.factor(substance)), log10 = "y") + 
+    stat_summary(fun.data = mybxp, geom = "errorbar", width = 0.4) +
+    stat_summary(fun.data = mybxp, geom = "boxplot") +
+    stat_summary(fun.data = myout, geom = "point") +
+    ggtitle(glue("{fun_year}")) +
     scale_fill_manual(values = myvar.tmp_sub_col_viridis,
                       labels = myvar.tmp_labels) +
     theme(
@@ -2300,14 +2309,13 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
     xlab("") +
     ylab("log10 Conc. [\u00b5g/kg]") +
     labs(fill = "") +
-    scale_y_log10(expand = expansion(mult = c(0, .1)))
-  ggsave(paste0("substance_comparison_",fun_year,".jpg"),
+    scale_y_log10() 
+  ggsave(glue("substance_comparison_{fun_year}.jpg"),
          height = 1080,
          width = 2800,
          units = "px",
-         path = paste0("./Grafik/PPP_Pollenmonitoring/Substance_Comparison/", fun_year, "/"))
+         path = glue("./Grafik/PPP_Pollenmonitoring/Substance_Comparison/{fun_year}/"))
 }
-
 
 
 
@@ -2713,6 +2721,92 @@ myfun.plot_trend_ch_a_sp <- function(fun_year){
 # experimental ------------------------------------------------------------
 
 
+myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5, fun_start_week, fun_end_week){
+  
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5, week >= fun_start_week, week <= fun_end_week)
+  myvar.tmp_substances <- base::unique(tbl_tmp$substance)
+  myvar.tmp_min_week <- base::min(tbl_tmp$week)
+  myvar.tmp_max_week <- base::max(tbl_tmp$week)
+  myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
+  myvar.tmp_week_labels <- myvar.tmp_week_breaks
+  
+  for (i in base::seq_along(myvar.tmp_substances)) {
+    tbl_tmp_cur_sub <- dplyr::filter(tbl_tmp, substance == myvar.tmp_substances[i])
+    myvar.tmp_tbl_unique_location_short <- base::unique(tbl_tmp_cur_sub$location_short)
+    myvar.tmp_labels_location <- base::sort(base::unique(tbl_tmp_cur_sub$location_short))
+    myvar.tmp_location_short_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_tbl_unique_location_short))
+    myvar.tmp_max_conc <- base::max(tbl_tmp_cur_sub$concentration)
+    
+    for (j in 1:NROW(tbl_tmp_cur_sub)) {
+      if (tbl_tmp_cur_sub$greater_than_loq[j] == FALSE) {
+        tbl_tmp_cur_sub$concentration[j] = 0
+      }
+    }
+    
+    tbl_tmp_missing <- dplyr::tibble(week = NA,
+                                     loc_short = NA,
+                                     missing = NA)
+    
+    
+    for (z in 1:length(myvar.tmp_week_labels)) {
+      tmp_tbl_week <- dplyr::filter(tbl_tmp_cur_sub, week == myvar.tmp_week_labels[z])
+      for (a in 1:length(myvar.tmp_tbl_unique_location_short)) {
+        tbl_tmp_location <- dplyr::filter(tmp_tbl_week, location_short == myvar.tmp_tbl_unique_location_short[a])
+        if (base::NROW(tbl_tmp_location) > 0) {
+          tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(myvar.tmp_week_labels[z],
+                                                              myvar.tmp_tbl_unique_location_short[a],
+                                                              NA)
+        } else {
+          tbl_tmp_missing[nrow( tbl_tmp_missing) + 1,] = list(myvar.tmp_week_labels[z],
+                                                              myvar.tmp_tbl_unique_location_short[a],
+                                                              0.1 * myvar.tmp_max_conc)
+        }
+      }
+    }
+    
+    tbl_tmp_missing <- tbl_tmp_missing[-1,]
+    
+    tbl_tmp_cur_sub %>%
+      ggplot() +
+      geom_col(
+        mapping = aes(x = week,y = concentration, fill = location_short),position = position_dodge2(preserve = "single")) +
+      scale_fill_manual(values = myvar.tmp_location_short_colours_viridis,
+                        labels = myvar.tmp_labels_location) +
+      ggtitle(paste0(myvar.tmp_substances[i])) +
+      theme(
+        axis.text.x = element_text(
+          angle = 33,
+          hjust = 1,
+          colour = "black",
+          size = 11
+        ),
+        axis.title.x = element_text(size = 16),
+        axis.text.y = element_text(size = 14, colour = "black"),
+        axis.title.y = element_text(size = 16),
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(size = 20),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13)
+      ) +
+      labs(fill = "Location") +
+      xlab("Calendar Week") +
+      ylab("Conc. [\u00b5g/kg]") +
+      scale_y_continuous(expand = expansion(mult = c(0, .1)),
+                         limits = c(0, myvar.tmp_max_conc)) +
+      scale_x_continuous(breaks = myvar.tmp_week_breaks,
+                         labels = myvar.tmp_week_labels) +
+      geom_point(data = tbl_tmp_missing,
+                 mapping = aes(x = week,y = missing, shape = loc_short),
+                 position = position_dodge(preserve = "single"))
+    ggsave(glue("location_comparison_{myvar.tmp_substances[i]}.jpg"),
+           height = 1080,
+           width = 2800,
+           units = "px",
+           path = paste0("./Grafik/PPP_Pollenmonitoring/Location_Comparison_Custom/", fun_year, "/"))
+  }
+  
+}
 
 
 
