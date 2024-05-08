@@ -2286,7 +2286,7 @@ myfun.plot_pm_ppp_location_comp_def <- function(fun_year, fun_location1, fun_loc
 
 
 myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_sub3, fun_sub4, fun_sub5){
-  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results,year == fun_year, substance == fun_sub1 | substance == fun_sub2 | substance == fun_sub3 | substance == fun_sub4 | substance == fun_sub5, greater_than_loq == TRUE)
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results,year == fun_year, greater_than_loq == TRUE, substance == fun_sub1 | substance == fun_sub2 | substance == fun_sub3 | substance == fun_sub4 | substance == fun_sub5)
   
   myvar.tmp_sub_col_viridis <- myfun.assign_viridis_to_vec5(base::sort(base::unique(tbl_tmp$substance)))
   myvar.tmp_labels <- base::sort(base::unique(tbl_tmp$substance))
@@ -2314,7 +2314,7 @@ myfun.plot_pm_ppp_box_substance <- function(fun_year, fun_sub1, fun_sub2, fun_su
     xlab("") +
     ylab("log10 Conc. [\u00b5g/kg]") +
     labs(fill = "") +
-    scale_y_log10(expand = expansion(mult = c(0, .1))) 
+    scale_y_log10() 
   ggsave(glue("substance_comparison_{fun_year}.jpg"),
          height = 1080,
          width = 2800,
@@ -2431,7 +2431,7 @@ myfun.plot_pm_ppp_trend_ch <- function(fun_year){
 # plot pm_ppp point & smooth for selected substances ch -------------------------------
 
 
-myfun.plot_pm_ppp_trend_ch <- function(fun_year, fun_sub1, fun_sub2, fun_sub3){
+myfun.plot_pm_ppp_trend_comp_sub_ch <- function(fun_year, fun_sub1, fun_sub2, fun_sub3){
   tmp_tbl <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, substance == fun_sub1 | substance == fun_sub2 | substance == fun_sub3, greater_than_loq == TRUE)
   myvar.tmp_min_week <- base::min(tmp_tbl$week)
   myvar.tmp_max_week <- base::max(tmp_tbl$week)
