@@ -181,7 +181,7 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     
                     myfun.plot_pm_ppp_substance_trend_ch(myvar.usr_results_year)
                     base::print("DONE")
-                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Trent/", myvar.usr_year))
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Trent/", myvar.usr_results_year))
                     base::print("%")
                     base::print("%")
                     base::print("%")
@@ -193,7 +193,7 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     
                     myfun.plot_pm_ppp_trend_ch(myvar.usr_results_year)
                     base::print("DONE")
-                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Trent/", myvar.usr_year))
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Trent/", myvar.usr_results_year))
                     base::print("%")
                     base::print("%")
                     base::print("%")
