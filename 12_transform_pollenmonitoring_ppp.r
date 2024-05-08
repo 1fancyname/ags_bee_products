@@ -125,6 +125,40 @@ base::print("% Creating new tibble for PPP Pollenmonitoring prevalence informati
 
 
 
+
+# create table without missing samples ------------------------------------
+#This table MUST NOT be used for anything else other than for ch6
+
+tbl_pm_ppp_nms <- tbl_pm_ppp_results
+
+
+
+  myvar.unique_exp <- unique(tbl_pm_ppp_nms$pk_id_exp)
+  for (j in seq_along(myvar.unique_exp)) {
+    tbl_tmp <- dplyr::filter(tbl_pm_ppp_nms, pk_id_exp == myvar.unique_exp[j])
+    myvar.tmp_min_week <- tbl_tmp %$% min(week)
+    myvar.tmp_max_week <- tbl_tmp %$% max(week)
+    myvar.tmp_weeks <- myvar.tmp_min_week:myvar.tmp_max_week
+    for (k in seq_along(myvar.tmp_weeks)) {
+      tbl_tmp %<>% dplyr::filter(week == myvar.tmp_weeks[k])
+      if (nrow(tbl_tmp) > 0) {
+        
+      } else {
+        tbl_tmp_info <- dplyr::filter(tbl_pm_ppp_nms, pk_id_exp == myvar.unique_exp[j])
+        tbl_pm_ppp_nms %<>% add_row(tbl_tmp_info[1,])
+        tbl_pm_ppp_nms$week[nrow(tbl_pm_ppp_nms)] <- myvar.tmp_weeks[k]
+        tbl_pm_ppp_nms$concentration[nrow(tbl_pm_ppp_nms)] <- 0.0000000000001
+      }
+    }
+  }
+
+rm(j, k)
+rm(myvar.unique_exp,
+   myvar.tmp_min_week, myvar.tmp_max_week, myvar.tmp_weeks,
+   tbl_tmp_info)
+
+
+
 # tbl_pm_ppp_prevalence -------------------------------------------------------
 
 tbl_pm_ppp_prevalence <- myfun.create_tbl_prevalence(input_table = tbl_pm_ppp_results,
