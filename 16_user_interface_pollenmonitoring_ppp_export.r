@@ -21,6 +21,10 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
            myvar.usr.chart_type <- stringr::str_to_lower(base::as.character(base::readline("Enter chart-id here:")))
            switch(myvar.usr.chart_type,
                   "ch1" = {
+
+# ch1 ---------------------------------------------------------------------
+
+                    
                     base::print("For which year do you want to create the charts? Example: 2024")
                     myvar.usr_prevalence_year  <- base::as.numeric(base::readline("Enter here:"))
                     
@@ -35,6 +39,10 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
 
                   },
                   "ch2" = {
+
+# ch2 ---------------------------------------------------------------------
+
+                    
                     base::print("For which year do you want to create the charts? Example: 2024")
                     myvar.usr_prevalence_year  <- base::as.numeric(base::readline("Enter here:"))
                     
@@ -48,6 +56,10 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     
                   },
                   "ch3" = {
+
+# ch3 ---------------------------------------------------------------------
+
+                    
                     base::print("For which year do you want to createthe charts? Example: 2024")
                     myvar.usr_year  <- base::as.numeric(base::readline("Enter here:"))
                     
@@ -85,6 +97,10 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     )
                   },
                   "ch4" = {
+
+# ch4 ---------------------------------------------------------------------
+
+                    
                     base::print("For which year do you want to create a plot? Example: 2024")
                     myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                     
@@ -114,6 +130,10 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     base::print("%")
                   },
                   "ch5" = {
+
+# ch5 ---------------------------------------------------------------------
+
+                    
                     base::print("For which year do you want to create a plot? Example: 2024")
                     myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                     
@@ -140,13 +160,17 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                                                          fun_end_week = myvar.usr_end_week)
                     
                     base::print("DONE")
-                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Location_Comparison_Custom/", myvar.usr_year))
+                    base::print(paste0("The files are located at: ./Grafik/PPP_Pollenmonitoring/Location_Comparison_Custom/", myvar.usr_results_year))
                     base::print("%")
                     base::print("%")
                     base::print("%")
                     base::print("%")
                   },
                   "ch6" = {
+
+# ch6 ---------------------------------------------------------------------
+
+                    
                     base::print("For which year do you want to create a plot? Example: 2024")
                     myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                     
@@ -176,6 +200,10 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     base::print("%")
                   },
                   "ch7" = {
+
+# ch7 ---------------------------------------------------------------------
+
+                    
                     base::print("For which year do you want to create a plot? Example: 2024")
                     myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                     
@@ -188,6 +216,10 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     base::print("%")
                   },
                   "ch8" = {
+
+# ch8 ---------------------------------------------------------------------
+
+                    
                     base::print("For which year do you want to create a plot? Example: 2024")
                     myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
                     
