@@ -2369,6 +2369,7 @@ myfun.plot_pm_ppp_trend_ch <- function(fun_year){
   myvar.tmp_max_week <- base::max(tmp_tbl$week)
   myvar.tmp_week_breaks <- myvar.tmp_min_week:myvar.tmp_max_week
   myvar.tmp_week_labels <- myvar.tmp_week_breaks
+
   
   ggplot(data = tmp_tbl, mapping = aes(x = week,y = concentration)) +
     geom_point(position = "jitter") +
@@ -2396,7 +2397,7 @@ myfun.plot_pm_ppp_trend_ch <- function(fun_year){
     ) +
     xlab("Calendar Week") +
     ylab("Conc. [\u00b5g/kg]") +
-    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    coord_trans(x = "identity", y = "log10") +
     scale_x_continuous(breaks = myvar.tmp_week_breaks,
                        labels = myvar.tmp_week_labels)
   ggsave(paste0(fun_year,".jpg"),
@@ -2410,7 +2411,7 @@ myfun.plot_pm_ppp_trend_ch <- function(fun_year){
 
 
 
-# plot pm_ppp point & smooth for selected substances ch -------------------------------
+# plot pm_ppp point & smooth for each substance ch -------------------------------
 
 
 myfun.plot_pm_ppp_trend_comp_sub_ch <- function(fun_year, fun_sub1, fun_sub2, fun_sub3){
@@ -2449,7 +2450,7 @@ myfun.plot_pm_ppp_trend_comp_sub_ch <- function(fun_year, fun_sub1, fun_sub2, fu
     ) +
     xlab("Calendar Week") +
     ylab("Conc. [\u00b5g/kg]") +
-    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    coord_trans(x = "identity", y = "log10") +
     scale_x_continuous(breaks = myvar.tmp_week_breaks,
                        labels = myvar.tmp_week_labels)
   ggsave(paste0(fun_year,".jpg"),
@@ -2497,7 +2498,7 @@ myfun.plot_trend_ch_p <- function(fun_year){
     ) +
     xlab("Sample Date") +
     ylab("log10 Conc. [\u00b5g/kg]") +
-    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    coord_trans(x = "identity", y = "log10") +
     scale_x_date(breaks = myvar.tmp_date_breaks,
                        labels = myvar.tmp_dates_labels)
   ggsave(paste0(fun_year,".jpg"),
@@ -2545,7 +2546,7 @@ myfun.plot_trend_ch_bb <- function(fun_year){
     ) +
     xlab("Sample Date") +
     ylab("log10 Conc. [\u00b5g/kg]") +
-    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    coord_trans(x = "identity", y = "log10") +
     scale_x_date(breaks = myvar.tmp_date_breaks,
                  labels = myvar.tmp_dates_labels)
   ggsave(paste0(fun_year,".jpg"),
@@ -2594,7 +2595,7 @@ myfun.plot_trend_ch_w <- function(fun_year){
     ) +
     xlab("Sample Date") +
     ylab("log10 Conc. [\u00b5g/kg]") +
-    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    coord_trans(x = "identity", y = "log10") +
     scale_x_date(breaks = myvar.tmp_date_breaks,
                  labels = myvar.tmp_dates_labels)
   ggsave(paste0(fun_year,".jpg"),
@@ -2643,7 +2644,7 @@ myfun.plot_trend_ch_a <- function(fun_year){
     ) +
     xlab("Sample Date") +
     ylab("log10 Conc. [\u00b5g/kg]") +
-    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    coord_trans(x = "identity", y = "log10") +
     scale_x_date(breaks = myvar.tmp_date_breaks,
                  labels = myvar.tmp_dates_labels)
   ggsave(paste0(fun_year,".jpg"),
@@ -2691,7 +2692,7 @@ myfun.plot_trend_ch_a_sp <- function(fun_year){
     ) +
     xlab("Sample Date") +
     ylab("log10 Conc. [\u00b5g/kg]") +
-    scale_y_log10(expand = expansion(mult = c(0, .1))) +
+    coord_trans(x = "identity", y = "log10") +
     scale_x_date(breaks = myvar.tmp_date_breaks,
                  labels = myvar.tmp_dates_labels)
   ggsave(paste0(fun_year,".jpg"),
@@ -2707,6 +2708,7 @@ myfun.plot_trend_ch_a_sp <- function(fun_year){
 
 
 
+# experimental ------------------------------------------------------------
 
 
 
