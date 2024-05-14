@@ -4,16 +4,18 @@
 
 
 # plot ap22-25 pollen point & smooth for all substances ch -------------------------------
-
+#keep in mind the sample date in the filter and the span for geom_smooth
 
 myfun.plot_trend_ch_p <- function(fun_year){
-  tmp_tbl <- dplyr::filter(tbl_results_p, year == fun_year, greater_than_loq == TRUE)
+  tmp_tbl <- dplyr::filter(tbl_results_p, year == fun_year, greater_than_loq == TRUE, sample_date_start < as.Date("2023-10-01"))
   myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date_start)
   myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date_start), format = "%d.%m.")
   
   ggplot(data = tmp_tbl, mapping = aes(x = sample_date_start,y = concentration)) +
-    geom_point(position = "jitter") +
-    geom_smooth(colour = "#35b779", 
+    geom_point(position = "jitter",
+               size = 1) +
+    geom_smooth(linewidth = 0.7,
+                colour = "#35b779", 
                 formula = y ~ x,
                 method = "loess", 
                 se = FALSE,
@@ -27,7 +29,7 @@ myfun.plot_trend_ch_p <- function(fun_year){
         size = 11
       ),
       axis.title.x = element_text(size = 16),
-      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.text.y = element_text(size = 11, colour = "black"),
       axis.title.y = element_text(size = 16),
       panel.background = element_blank(),
       axis.line = element_line(colour = "black"),
@@ -39,12 +41,13 @@ myfun.plot_trend_ch_p <- function(fun_year){
     ylab("log10 Conc. [\u00b5g/kg]") +
     coord_trans(x = "identity", y = "log10") +
     scale_x_date(breaks = myvar.tmp_date_breaks,
-                 labels = myvar.tmp_dates_labels) 
+                 labels = myvar.tmp_dates_labels) +
+    scale_y_continuous(breaks = c(1, 10, 100, 200, 300))
   ggsave(paste0(fun_year,".jpg"),
          height = 1080,
          width = 2300,
          units = "px",
-         path = base::paste0("./Grafik/AP22-25/Pollen/Trend/", fun_year,"/"))
+         path = base::paste0("./Grafik/AP22-25/Pollen/Trend/"))
   
 }
 
