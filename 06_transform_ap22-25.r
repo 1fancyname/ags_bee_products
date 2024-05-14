@@ -98,6 +98,11 @@ tbl_results_bb <- tbl_results_bb %>%
 tbl_results_bb$concentration <- base::replace(tbl_results_bb$concentration, base::is.na(tbl_results_bb$concentration), 0)
 
 
+#join with tbl_substance
+
+tbl_results_bb <- tbl_results_bb %>% 
+  dplyr::inner_join(tbl_substances, by = dplyr::join_by(substance == substance_name))
+
 
 #create new columns for lod and loq information
 tbl_results_bb <- tibble::rowid_to_column(tbl_results_bb, "ID")
@@ -258,6 +263,13 @@ tbl_results_p <- tbl_results_p %>%
 
 #replace all NA values with 0
 tbl_results_p$concentration <- base::replace(tbl_results_p$concentration, is.na(tbl_results_p$concentration), 0)
+
+
+
+#join with tbl_substance
+
+tbl_results_p <- tbl_results_p %>% 
+  dplyr::inner_join(tbl_substances, by = dplyr::join_by(substance == substance_name))
 
 
 
@@ -425,6 +437,13 @@ tbl_results_w <- tbl_results_w %>%
 
 #replace all NA values with 0
 tbl_results_w$concentration <- base::replace(tbl_results_w$concentration, base::is.na(tbl_results_w$concentration), 0)
+
+
+
+#join with tbl_substance
+
+tbl_results_w <- tbl_results_w %>% 
+  dplyr::inner_join(tbl_substances, by = dplyr::join_by(substance == substance_name))
 
 
 
