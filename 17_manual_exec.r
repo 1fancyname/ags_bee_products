@@ -39,7 +39,7 @@ myfun.plot_trend_ch_p <- function(fun_year){
     ylab("log10 Conc. [\u00b5g/kg]") +
     coord_trans(x = "identity", y = "log10") +
     scale_x_date(breaks = myvar.tmp_date_breaks,
-                 labels = myvar.tmp_dates_labels)
+                 labels = myvar.tmp_dates_labels) 
   ggsave(paste0(fun_year,".jpg"),
          height = 1080,
          width = 2300,
@@ -301,6 +301,7 @@ myfun.plot_ap22_45_trend_bb_class_ch <- function(fun_year){
 
 
 # ap22-25 p trend class comparison ---------------------------------------
+#keep in mind the sample date in the filter and the span for geom_smooth
 
 myfun.plot_ap22_45_trend_p_class_ch <- function(fun_year){
   tmp_tbl <- dplyr::filter(tbl_results_p, year == fun_year, greater_than_loq == TRUE, class != "s", sample_date_start < as.Date("2023-10-01"))
@@ -313,7 +314,8 @@ myfun.plot_ap22_45_trend_p_class_ch <- function(fun_year){
   
   ggplot(data = tmp_tbl, mapping = aes(x = sample_date_start,y = concentration, colour = class)) +
     geom_point(position = "jitter", size = 1) +
-    geom_smooth(formula = y ~ x,
+    geom_smooth(linewidth = 0.7,
+                formula = y ~ x,
                 method = "loess", 
                 se = FALSE,
                 span = 0.9) +
@@ -328,7 +330,7 @@ myfun.plot_ap22_45_trend_p_class_ch <- function(fun_year){
         size = 11
       ),
       axis.title.x = element_text(size = 16),
-      axis.text.y = element_text(size = 14, colour = "black"),
+      axis.text.y = element_text(size = 11, colour = "black"),
       axis.title.y = element_text(size = 16),
       panel.background = element_blank(),
       axis.line = element_line(colour = "black"),
@@ -336,12 +338,13 @@ myfun.plot_ap22_45_trend_p_class_ch <- function(fun_year){
       legend.text = element_text(size = 12),
       legend.title = element_text(size = 13)
     ) +
-    xlab("Calendar Week") +
-    ylab("log 10 Conc. [\u00b5g/kg]") +
+    xlab("Sample Date") +
+    ylab("log10 Conc. [\u00b5g/kg]") +
     labs(colour = "Class") +
     coord_trans(x = "identity", y = "log10") +
     scale_x_date(breaks = myvar.tmp_date_breaks,
-                 labels = myvar.tmp_dates_labels)
+                 labels = myvar.tmp_dates_labels) +
+    scale_y_continuous(breaks = c(0.1, 1, 10, 100, 200, 300))
   ggsave(paste0(fun_year,".jpg"),
          height = 1080,
          width = 2300,
