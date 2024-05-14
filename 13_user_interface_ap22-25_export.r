@@ -533,69 +533,6 @@ while (myvar.user_interface_ap22_25_export_state != "off") {
                     base::print("%")
                   },
                   "ch7" = {
-                    base::print("For which year do you want to create the charts? Example: 2022")
-                    myvar.usr_results_year  <- base::as.numeric(base::readline("Enter here:"))
-                    
-                    base::print("For which matrix do you want to create a graph? Example: BB")
-                    myvar.usr_matrix <- stringr::str_to_upper(base::as.character(base::readline("Enter here:")))
-                    
-                    switch(myvar.usr_matrix,
-                           "BB" = {
-                             
-                             myfun.plot_trend_ch_bb(myvar.usr_results_year)
-                             
-                             base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Beebread/Trend/", myvar.usr_results_year,"/"))
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                           },
-                           "P" = {
-                             
-                             myfun.plot_trend_ch_p(myvar.usr_results_year)
-                             
-                             base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Pollen/Trend/", myvar.usr_results_year,"/"))
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                           },
-                           "W" = {
-                             
-                             myfun.plot_trend_ch_w(myvar.usr_results_year)
-                             
-                             base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Wax/Trend/", myvar.usr_results_year,"/"))
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                           },
-                           "AS_L2" = {
-                             
-                             myfun.plot_trend_ch_a(myvar.usr_results_year)
-                             
-                             base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L2/Trend/", myvar.usr_results_year,"/"))
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                           },
-                           "AS_L1" = {
-                             
-                             myfun.plot_trend_ch_a_sp(myvar.usr_results_year)
-                             
-                             base::print("DONE")
-                             base::print(paste0("The files are located at: ./Grafik/AP22-25/Apistrip_L1/Trend/", fun_year,"/"))
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                             base::print("%")
-                           }
-                    )
                   }
            )
          },
