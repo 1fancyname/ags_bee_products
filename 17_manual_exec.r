@@ -7,19 +7,25 @@
 #keep in mind the sample date in the filter and the span for geom_smooth
 
 myfun.plot_trend_ch_p <- function(fun_year){
-  tmp_tbl <- dplyr::filter(tbl_results_p, year == fun_year, greater_than_loq == TRUE, sample_date_start < as.Date("2023-10-01"))
+  tmp_tbl <- dplyr::filter(tbl_results_p, year == fun_year, greater_than_loq == TRUE, sample_date_start < as.Date("2023-10-01"), class != "s")
   myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date_start)
   myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date_start), format = "%d.%m.")
+  myvar.tmp_unique_class <- base::unique(tmp_tbl$class)
+  myvar.tmp_labels_class <- base::sort(myvar.tmp_unique_class)
+  myvar.tmp_class_colours_viridis <- myfun.assign_viridis_to_vec(base::sort(myvar.tmp_unique_class))
   
   ggplot(data = tmp_tbl, mapping = aes(x = sample_date_start,y = concentration)) +
     geom_point(position = "jitter",
-               size = 1) +
+               size = 1,
+               mapping = aes(colour = class)) +
     geom_smooth(linewidth = 0.7,
-                colour = "#35b779", 
+                colour = "#3e4989", 
                 formula = y ~ x,
                 method = "loess", 
                 se = FALSE,
                 span = 0.6) +
+    scale_colour_manual(values = myvar.tmp_class_colours_viridis,
+                        labels = myvar.tmp_labels_class) +
     ggtitle(paste0(fun_year)) +
     theme(
       axis.text.x = element_text(
@@ -39,10 +45,12 @@ myfun.plot_trend_ch_p <- function(fun_year){
     ) +
     xlab("Sample Date") +
     ylab("log10 Conc. [\u00b5g/kg]") +
+    labs(colour = "Class") +
     coord_trans(x = "identity", y = "log10") +
     scale_x_date(breaks = myvar.tmp_date_breaks,
                  labels = myvar.tmp_dates_labels) +
-    scale_y_continuous(breaks = c(1, 10, 100, 200, 300))
+    scale_y_continuous(breaks = c(1, 10, 100, 200, 400),
+                       expand = expansion(mult = c(0, .1)))
   ggsave(paste0(fun_year,".jpg"),
          height = 1080,
          width = 2300,
