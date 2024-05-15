@@ -66,7 +66,7 @@ myfun.plot_trend_ch_p <- function(fun_year){
 
 
 myfun.plot_trend_ch_bb <- function(fun_year){
-  tmp_tbl <- dplyr::filter(tbl_results_bb, year == fun_year, greater_than_loq == TRUE)
+  tmp_tbl <- dplyr::filter(tbl_results_bb, year == fun_year, greater_than_loq == TRUE, sample_date < as.Date("2023-10-01"), class != "s")
   myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date)
   myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date), format = "%d.%m.")
   
@@ -115,7 +115,7 @@ myfun.plot_trend_ch_bb <- function(fun_year){
 
 
 myfun.plot_trend_ch_w <- function(fun_year){
-  tmp_tbl <- dplyr::filter(tbl_results_w, year == fun_year, greater_than_loq == TRUE)
+  tmp_tbl <- dplyr::filter(tbl_results_w, year == fun_year, greater_than_loq == TRUE, sample_date < as.Date("2023-10-01"), class != "s")
   myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date)
   myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date), format = "%d.%m.")
   
@@ -164,7 +164,7 @@ myfun.plot_trend_ch_w <- function(fun_year){
 
 
 myfun.plot_trend_ch_a <- function(fun_year){
-  tmp_tbl <- dplyr::filter(tbl_results_a, year == fun_year, greater_than_loq == TRUE)
+  tmp_tbl <- dplyr::filter(tbl_results_a, year == fun_year, greater_than_loq == TRUE, sample_date < as.Date("2023-10-01"), class != "s")
   myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date)
   myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date), format = "%d.%m.")
   
@@ -212,7 +212,7 @@ myfun.plot_trend_ch_a <- function(fun_year){
 
 
 myfun.plot_trend_ch_a_sp <- function(fun_year){
-  tmp_tbl <- dplyr::filter(tbl_results_a_sp, year == fun_year, greater_than_loq == TRUE)
+  tmp_tbl <- dplyr::filter(tbl_results_a_sp, year == fun_year, greater_than_loq == TRUE, sample_date < as.Date("2023-10-01"), class != "s")
   myvar.tmp_date_breaks <- base::unique(tmp_tbl$sample_date)
   myvar.tmp_dates_labels <- base::strftime(base::unique(tmp_tbl$sample_date), format = "%d.%m.")
   
