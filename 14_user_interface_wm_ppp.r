@@ -16,7 +16,7 @@ while (myvar.user_interface_state != "off") {
   base::print("Type ")
   base::print("1 to re-load the data from Project PPP Wachsmonitoring")
   base::print("2 to process the data from Project PPP Wachsmonitoring")
-  base::print("3 to visualize the data from Project PPP Wachsmonitoring")
+  base::print("3 to visualize or export the data from Project PPP Wachsmonitoring")
   myvar.usr.wm_ppp_choose_action <- base::as.character(base::readline("Enter here:")) 
   switch(myvar.usr.wm_ppp_choose_action,
          "1" = {
