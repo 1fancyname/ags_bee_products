@@ -1693,10 +1693,10 @@ myfun.export_tbl_matrix_diff <- function(fun_year) {
 # create_standard_substance_plot_wm -------------------------------------
 
 myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end) {
-  myvar.unique_substances <- unique(tbl_results_wm$substance)
+  myvar.unique_substances <- unique(tbl_leg_wm_ppp_results$substance)
   
   for (i in seq_along(myvar.unique_substances)) {
-    tmp_tbl_sub <- dplyr::filter(tbl_results_wm, substance == myvar.unique_substances[i], Year >= fun_year_start, Year <= fun_year_end)
+    tmp_tbl_sub <- dplyr::filter(tbl_leg_wm_ppp_results, substance == myvar.unique_substances[i], Year >= fun_year_start, Year <= fun_year_end)
     myvar.min_year <- min(tmp_tbl_sub$Year)
     myvar.max_year <- max(tmp_tbl_sub$Year)
     myvar.max_concentration <- max(tmp_tbl_sub$concentration)
@@ -1730,7 +1730,7 @@ myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end
            height = 2000,
            width = 4000,
            units = "px",
-           path = paste0("./Grafik/Wachsmonitoring_PPP/Substances/"))
+           path = paste0("./Grafik/Legacy_Wachsmonitoring_PPP/Substances/"))
   }
 }
 
@@ -1740,7 +1740,7 @@ myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end
 
 
   myfun.create_sub_comparison_chart_wm <- function(fun_sub1, fun_sub2, fun_sub3, fun_sub4, fun_sub5, fun_year_start, fun_year_end){
-    tbl_tmp <- dplyr::filter(tbl_results_wm, substance == fun_sub1 | substance == fun_sub2 | substance == fun_sub3 | substance == fun_sub4 | substance == fun_sub5, Year >= fun_year_start, Year <= fun_year_end)
+    tbl_tmp <- dplyr::filter(tbl_leg_wm_ppp_results, substance == fun_sub1 | substance == fun_sub2 | substance == fun_sub3 | substance == fun_sub4 | substance == fun_sub5, Year >= fun_year_start, Year <= fun_year_end)
     myvar.tmp_tbl_unique_sub <- unique(tbl_tmp$substance)
     myvar.tmp_labels_sub <- sort(unique(tbl_tmp$substance))
     myvar.tmp_sub_colours_viridis <- myfun.assign_viridis_to_vec(sort(myvar.tmp_tbl_unique_sub))
@@ -1778,7 +1778,7 @@ myfun.create_standard_substance_plot_wm <- function(fun_year_start, fun_year_end
              height = 2000,
              width = 4000,
              units = "px",
-             path = paste0("./Grafik/Wachsmonitoring_PPP/Substance_Comparison/"))
+             path = paste0("./Grafik/Legacy_Wachsmonitoring_PPP/Substance_Comparison/"))
 
   }
   
