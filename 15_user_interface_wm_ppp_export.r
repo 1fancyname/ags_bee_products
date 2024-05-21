@@ -13,6 +13,7 @@ while (myvar.user_interface_wm_ppp_export_state != "off") {
   base::print("Would you like to create charts with the imported data?")
   base::print("Type ")
   base::print("1 to create charts")
+  base::print("2 to export files")
   myvar.usr.chart_export <- base::as.character(base::readline("Enter here:")) 
   
   switch(myvar.usr.chart_export,
@@ -44,6 +45,27 @@ while (myvar.user_interface_wm_ppp_export_state != "off") {
                   }
            )
          }, 
+         "2" = {
+           base::print("Which table would you like to export? There is a comprehensive list of all types in the user manual.")
+           myvar.usr.table_type <- stringr::str_to_lower(base::as.character(base::readline("Enter table-id here:")))
+           
+           switch(myvar.usr.table_type,
+                  "tbl1" = {
+                    readr::write_excel_csv(
+                      tbl_wm_ppp_export,
+                      glue("Export/PPP_Wachsmonitoring/ppp_wachsmonitoring.csv"),
+                      delim = ";"
+                    )
+                    
+                    base::print("DONE")
+                    base::print(paste0("The file is located at: ./Data/Wachsmonitoring_PPP/"))
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                    base::print("%")
+                  }
+           )
+         },
          "exit" = {
            base::print("% Stopping user interface...")
            base::print("%")
