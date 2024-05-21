@@ -15,3 +15,6 @@ myvar.wm_processed <-  FALSE
 myvar.ap22_25_loaded <- FALSE
 myvar.ap22_25_re_load <- FALSE
 myvar.ap22_25_processed <- FALSE
+myvar.leg_wm_ppp_loaded <- FALSE
+myvar.leg_wm_ppp_re_load <- FALSE
+myvar.leg_wm_ppp_processed <- FALSE
