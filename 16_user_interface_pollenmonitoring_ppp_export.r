@@ -240,7 +240,8 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
            switch(myvar.usr.table_type,
                   "tbl1" = {
                     #results export
-                    tbl_pm_ppp_results_export <- dplyr::select(tbl_pm_ppp_results, 
+                    tbl_tmp_loq <- dplyr::filter(tbl_pm_ppp_results, greater_than_loq == TRUE)
+                    tbl_pm_ppp_results_export <- dplyr::select(tbl_tmp_loq, 
                                                        fk_id_p,
                                                        sample_date,
                                                        location_long,
@@ -255,7 +256,7 @@ while (myvar.user_interface_pm_ppp_export_state != "off") {
                     base::paste0("./Export/PPP_Pollenmonitoring/tbl_results_pm_ppp.csv"),
                     delim = ";"
                   )
-                  rm(tbl_pm_ppp_results_export)
+                  rm(tbl_pm_ppp_results_export, tbl_tmp_loq)
                   base::print("DONE")
                   base::print(base::paste0("The file ist stored in ./Export/PPP_Pollenmonitoring/"))
                   
