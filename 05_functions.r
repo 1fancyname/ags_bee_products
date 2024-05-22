@@ -2142,7 +2142,7 @@ myfun.pm_ppp_plot_prevalence_ch <- function(fun_year){
 
 
 myfun.plot_pm_ppp_location_comp_time <- function(fun_year, fun_location1, fun_location2, fun_location3, fun_location4, fun_location5, fun_start_week, fun_end_week){
-  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5, week >= fun_start_week, week <= fun_end_week, greater_than_loq == TRUE)
+  tbl_tmp <- dplyr::filter(tbl_pm_ppp_results, year == fun_year, location_short == fun_location1 | location_short == fun_location2 | location_short == fun_location3 | location_short == fun_location4 | location_short == fun_location5, week >= fun_start_week, week <= fun_end_week)
   myvar.tmp_substances <- unique(tbl_tmp$substance)
   for (i in seq_along(myvar.tmp_substances)) {
     tbl_tmp_cur_sub <- dplyr::filter(tbl_tmp, substance == myvar.tmp_substances[i])
